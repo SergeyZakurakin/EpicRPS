@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
-		5272E23E2C1663360083F7FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23D2C1663360083F7FC /* ViewController.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
 		5272E2462C1663370083F7FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2452C1663370083F7FC /* Base */; };
 		5272E2552C16750D0083F7FC /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2512C16750D0083F7FC /* Rubik-Regular.ttf */; };
@@ -19,13 +18,17 @@
 		5272E25B2C16754B0083F7FC /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2592C16754B0083F7FC /* Poppins-Black.ttf */; };
 		5272E25C2C16754B0083F7FC /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5272E25A2C16754B0083F7FC /* Poppins-Regular.ttf */; };
 		5272E25E2C1676940083F7FC /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E25D2C1676940083F7FC /* Font.swift */; };
+		5272E26F2C167FC40083F7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E26E2C167FC40083F7FC /* MainViewController.swift */; };
+		5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2702C1680B50083F7FC /* RulesViewController.swift */; };
+		5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2722C1680E70083F7FC /* GameViewController.swift */; };
+		5272E2752C16818C0083F7FC /* FightLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2742C16818C0083F7FC /* FightLoadViewController.swift */; };
+		5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2802C16823B0083F7FC /* FightResultsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5272E23D2C1663360083F7FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5272E2422C1663370083F7FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5272E2452C1663370083F7FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5272E2472C1663370083F7FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +39,11 @@
 		5272E2592C16754B0083F7FC /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
 		5272E25A2C16754B0083F7FC /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		5272E25D2C1676940083F7FC /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		5272E26E2C167FC40083F7FC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		5272E2702C1680B50083F7FC /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
+		5272E2722C1680E70083F7FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		5272E2742C16818C0083F7FC /* FightLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightLoadViewController.swift; sourceTree = "<group>"; };
+		5272E2802C16823B0083F7FC /* FightResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightResultsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +76,13 @@
 		5272E2382C1663360083F7FC /* EpicRPS */ = {
 			isa = PBXGroup;
 			children = (
+				5272E25F2C167E3F0083F7FC /* MainModule */,
+				5272E2612C167E4E0083F7FC /* GameModule */,
+				5272E2602C167E440083F7FC /* RulesModule */,
+				5272E2622C167E660083F7FC /* FightResultsModule */,
+				5272E2632C167E6D0083F7FC /* SettingsModule */,
+				5272E2762C1681BF0083F7FC /* StatisticsModule */,
 				5272E24E2C16647B0083F7FC /* Application */,
-				5272E23D2C1663360083F7FC /* ViewController.swift */,
 				5272E24F2C1664870083F7FC /* SupportingFiles */,
 			);
 			path = EpicRPS;
@@ -107,6 +120,141 @@
 				5272E2512C16750D0083F7FC /* Rubik-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		5272E25F2C167E3F0083F7FC /* MainModule */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2642C167F040083F7FC /* View */,
+				5272E2652C167F0D0083F7FC /* Controller */,
+			);
+			path = MainModule;
+			sourceTree = "<group>";
+		};
+		5272E2602C167E440083F7FC /* RulesModule */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2692C167F230083F7FC /* Model */,
+				5272E26B2C167F300083F7FC /* View */,
+				5272E26A2C167F260083F7FC /* Controller */,
+			);
+			path = RulesModule;
+			sourceTree = "<group>";
+		};
+		5272E2612C167E4E0083F7FC /* GameModule */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2662C167F130083F7FC /* Model */,
+				5272E2672C167F190083F7FC /* View */,
+				5272E2682C167F1C0083F7FC /* Controller */,
+			);
+			path = GameModule;
+			sourceTree = "<group>";
+		};
+		5272E2622C167E660083F7FC /* FightResultsModule */ = {
+			isa = PBXGroup;
+			children = (
+				5272E27F2C16821D0083F7FC /* Model */,
+				5272E27E2C16821C0083F7FC /* View */,
+				5272E27D2C1682160083F7FC /* Controller */,
+			);
+			path = FightResultsModule;
+			sourceTree = "<group>";
+		};
+		5272E2632C167E6D0083F7FC /* SettingsModule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SettingsModule;
+			sourceTree = "<group>";
+		};
+		5272E2642C167F040083F7FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5272E2652C167F0D0083F7FC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5272E26E2C167FC40083F7FC /* MainViewController.swift */,
+				5272E2742C16818C0083F7FC /* FightLoadViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5272E2662C167F130083F7FC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5272E2672C167F190083F7FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5272E2682C167F1C0083F7FC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2722C1680E70083F7FC /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5272E2692C167F230083F7FC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5272E26A2C167F260083F7FC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2702C1680B50083F7FC /* RulesViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5272E26B2C167F300083F7FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5272E2762C1681BF0083F7FC /* StatisticsModule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = StatisticsModule;
+			sourceTree = "<group>";
+		};
+		5272E27D2C1682160083F7FC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5272E2802C16823B0083F7FC /* FightResultsViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5272E27E2C16821C0083F7FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5272E27F2C16821D0083F7FC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,10 +333,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5272E2752C16818C0083F7FC /* FightLoadViewController.swift in Sources */,
+				5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */,
 				5272E25E2C1676940083F7FC /* Font.swift in Sources */,
-				5272E23E2C1663360083F7FC /* ViewController.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
+				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
+				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,
+				5272E26F2C167FC40083F7FC /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
