@@ -23,6 +23,7 @@
 		5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2722C1680E70083F7FC /* GameViewController.swift */; };
 		5272E2752C16818C0083F7FC /* FightLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2742C16818C0083F7FC /* FightLoadViewController.swift */; };
 		5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2802C16823B0083F7FC /* FightResultsViewController.swift */; };
+		DC8ACFF02C175B1700F4C46E /* PlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8ACFEF2C175B1700F4C46E /* PlayerStats.swift */; };
 		5272E2892C186E680083F7FC /* RPSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2882C186E680083F7FC /* RPSImageView.swift */; };
 		5272E28B2C1870A90083F7FC /* RPSTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E28A2C1870A90083F7FC /* RPSTitleLabel.swift */; };
 		5272E2902C187F660083F7FC /* RPSPlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E28F2C187F660083F7FC /* RPSPlayerInfoView.swift */; };
@@ -48,6 +49,7 @@
 		5272E2722C1680E70083F7FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		5272E2742C16818C0083F7FC /* FightLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightLoadViewController.swift; sourceTree = "<group>"; };
 		5272E2802C16823B0083F7FC /* FightResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightResultsViewController.swift; sourceTree = "<group>"; };
+		DC8ACFEF2C175B1700F4C46E /* PlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStats.swift; sourceTree = "<group>"; };
 		5272E2882C186E680083F7FC /* RPSImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSImageView.swift; sourceTree = "<group>"; };
 		5272E28A2C1870A90083F7FC /* RPSTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTitleLabel.swift; sourceTree = "<group>"; };
 		5272E28F2C187F660083F7FC /* RPSPlayerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSPlayerInfoView.swift; sourceTree = "<group>"; };
@@ -91,7 +93,6 @@
 				5272E2632C167E6D0083F7FC /* SettingsModule */,
 				5272E2762C1681BF0083F7FC /* StatisticsModule */,
 				5272E24E2C16647B0083F7FC /* Application */,
-				5272E2872C186E3A0083F7FC /* CustomViews */,
 				5272E24F2C1664870083F7FC /* SupportingFiles */,
 			);
 			path = EpicRPS;
@@ -109,7 +110,6 @@
 		5272E24F2C1664870083F7FC /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				5272E29A2C1A348E0083F7FC /* Extensions */,
 				5272E2502C16736A0083F7FC /* Fonts */,
 				5272E2422C1663370083F7FC /* Assets.xcassets */,
 				5272E2442C1663370083F7FC /* LaunchScreen.storyboard */,
@@ -267,48 +267,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		5272E2872C186E3A0083F7FC /* CustomViews */ = {
-			isa = PBXGroup;
-			children = (
-				5272E28D2C1870CE0083F7FC /* ImageView */,
-				5272E28C2C1870C60083F7FC /* Labels */,
-				5272E28E2C187F5A0083F7FC /* Views */,
-			);
-			path = CustomViews;
-			sourceTree = "<group>";
-		};
-		5272E28C2C1870C60083F7FC /* Labels */ = {
-			isa = PBXGroup;
-			children = (
-				5272E28A2C1870A90083F7FC /* RPSTitleLabel.swift */,
-			);
-			path = Labels;
-			sourceTree = "<group>";
-		};
-		5272E28D2C1870CE0083F7FC /* ImageView */ = {
-			isa = PBXGroup;
-			children = (
-				5272E2882C186E680083F7FC /* RPSImageView.swift */,
-			);
-			path = ImageView;
-			sourceTree = "<group>";
-		};
-		5272E28E2C187F5A0083F7FC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				5272E28F2C187F660083F7FC /* RPSPlayerInfoView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		5272E29A2C1A348E0083F7FC /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				5272E29B2C1A349A0083F7FC /* UIViewController + ext.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -387,12 +345,11 @@
 			files = (
 				5272E2752C16818C0083F7FC /* FightLoadViewController.swift in Sources */,
 				5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */,
-				5272E29C2C1A349A0083F7FC /* UIViewController + ext.swift in Sources */,
 				5272E25E2C1676940083F7FC /* Font.swift in Sources */,
+				DC8ACFF02C175B1700F4C46E /* PlayerStats.swift in Sources */,
 				5272E2892C186E680083F7FC /* RPSImageView.swift in Sources */,
 				5272E2902C187F660083F7FC /* RPSPlayerInfoView.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
-				5272E28B2C1870A90083F7FC /* RPSTitleLabel.swift in Sources */,
 				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
 				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,
