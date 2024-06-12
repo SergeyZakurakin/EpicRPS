@@ -28,6 +28,7 @@
 		5272E28B2C1870A90083F7FC /* RPSTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E28A2C1870A90083F7FC /* RPSTitleLabel.swift */; };
 		5272E2902C187F660083F7FC /* RPSPlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E28F2C187F660083F7FC /* RPSPlayerInfoView.swift */; };
 		5272E29C2C1A349A0083F7FC /* UIViewController + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E29B2C1A349A0083F7FC /* UIViewController + ext.swift */; };
+		DC8ACFF02C175B1700F4C46E /* PlayerStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8ACFEF2C175B1700F4C46E /* PlayerStats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		5272E28A2C1870A90083F7FC /* RPSTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTitleLabel.swift; sourceTree = "<group>"; };
 		5272E28F2C187F660083F7FC /* RPSPlayerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSPlayerInfoView.swift; sourceTree = "<group>"; };
 		5272E29B2C1A349A0083F7FC /* UIViewController + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + ext.swift"; sourceTree = "<group>"; };
+		DC8ACFEF2C175B1700F4C46E /* PlayerStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStats.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 		5272E2662C167F130083F7FC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC8ACFEF2C175B1700F4C46E /* PlayerStats.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				DC8ACFF02C175B1700F4C46E /* PlayerStats.swift in Sources */,
 				5272E2892C186E680083F7FC /* RPSImageView.swift in Sources */,
 				5272E2902C187F660083F7FC /* RPSPlayerInfoView.swift in Sources */,
+				DC8ACFF02C175B1700F4C46E /* PlayerStats.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
 				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
