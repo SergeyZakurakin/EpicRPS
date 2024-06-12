@@ -1,16 +1,16 @@
 import UIKit
 
-final class FightResultsViewController: UIViewController {
+final class FightLooseResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fightResultsView()
+        fightLooseResultsView()
         
     }
     
-    private func fightResultsView(){
+    private func fightLooseResultsView(){
         
-        let resultsBackgroundView = UIImageView(image: .blueBackground)
+        let resultsBackgroundView = UIImageView(image: .orangeBackground)
         resultsBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(resultsBackgroundView)
         resultsBackgroundView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -26,7 +26,7 @@ final class FightResultsViewController: UIViewController {
         avatarBackgroundView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         avatarBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 213).isActive = true
         
-        let secondPlayerScaleView = UIImageView(image: .wrestler)
+        let secondPlayerScaleView = UIImageView(image: .alien)
         secondPlayerScaleView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondPlayerScaleView)
         secondPlayerScaleView.heightAnchor.constraint(equalToConstant: 78.05).isActive = true
@@ -35,7 +35,7 @@ final class FightResultsViewController: UIViewController {
         secondPlayerScaleView.centerYAnchor.constraint(equalTo: avatarBackgroundView.centerYAnchor).isActive = true
         
         let gameStatusLabel = UILabel()
-        gameStatusLabel.text = "You Win"
+        gameStatusLabel.text = "You Lose"
         gameStatusLabel.textColor = .yelowPrimary
         gameStatusLabel.font =  UIFont(name: "Rubik-Black", size: 21)
         gameStatusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ final class FightResultsViewController: UIViewController {
         gameStatusLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         let enemyScoreLabel = UILabel()
-        enemyScoreLabel.text = "3 - 1"
+        enemyScoreLabel.text = "2 - 3"
         enemyScoreLabel.textColor = .white
         enemyScoreLabel.font =  UIFont(name: "Rubik-Black", size: 41)
         enemyScoreLabel.translatesAutoresizingMaskIntoConstraints = false
