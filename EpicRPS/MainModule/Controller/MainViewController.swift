@@ -56,6 +56,9 @@ final class MainViewController: UIViewController {
     }
     
     // MARK: - Life Cycle
+    
+    // MARK: - Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
