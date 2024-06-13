@@ -1,5 +1,5 @@
 //
-//  FightLoadViewController.swift
+//  FightLoadView.swift
 //  EpicRPS
 //
 //  Created by Evgenii Mazrukho on 10.06.2024.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-final class FightLoadViewController: UIViewController {
+final class FightLoadView: UIView {
     
     //MARK: - Properties
     
-    private let playerWinScore = 23
-    private let playerLoseScore = 1
-    private let computerWinScore = 10
-    private let computerLoseScore = 2
+    private var playerWinScore: Int
+    private var playerLoseScore: Int
+    private var computerWinScore: Int
+    private var computerLoseScore: Int
     
     
     //MARK: - UI
@@ -32,33 +32,38 @@ final class FightLoadViewController: UIViewController {
     
     //MARK: - Lifecycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    init(playerWinScore: Int,
+         playerLoseScore: Int,
+         computerWinScore: Int,
+         computerLoseScore: Int) 
+    {
+        self.playerWinScore = playerWinScore
+        self.playerLoseScore = playerLoseScore
+        self.computerWinScore = computerWinScore
+        self.computerLoseScore = computerLoseScore
         
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        super.init(frame: .zero)
+        configure()
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configure()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-
 //MARK: - Internal Methods
 
-private extension FightLoadViewController {
+private extension FightLoadView {
     func configure() {
         let views = [backgroundImageView,
                      stackView,
                      readinessLabel]
-        views.forEach { view.addSubview($0) }
+        views.forEach { addSubview($0) }
         
         configureLabels()
         configureStackViews()
         setConstraints()
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -83,21 +88,21 @@ private extension FightLoadViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             
-            readinessLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            readinessLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            readinessLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            readinessLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
             readinessLabel.heightAnchor.constraint(equalToConstant: 25),
             readinessLabel.widthAnchor.constraint(equalToConstant: 110),
             
             
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             stackView.bottomAnchor.constraint(equalTo: readinessLabel.topAnchor, constant: -100)
         ])
     }
