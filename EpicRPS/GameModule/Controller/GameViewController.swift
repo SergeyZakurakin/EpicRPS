@@ -46,6 +46,7 @@ final class GameViewController: UIViewController {
         super.viewWillAppear(true)
         
         self.title = ""
+        self.navigationItem.setHidesBackButton(true, animated: true)
     }
 
     
@@ -53,15 +54,14 @@ final class GameViewController: UIViewController {
         super.viewDidAppear(true)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.title = "Game"
             self.fightLoadView.removeFromSuperview()
+            self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: nil)
         }
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Game"
         timeScale.backgroundColor = .blueLight
         playersResultScale.backgroundColor = .blueLight
         scaleMiddleLine.backgroundColor = .white
@@ -69,6 +69,15 @@ final class GameViewController: UIViewController {
         setupUI()
         setupConstain()
     }
+    
+    
+    //MARK: - Internal Methods
+    
+    @objc private func backToMainVC() {
+        let mainVC = MainViewController()
+        navigationController?.pushViewController(mainVC, animated: true)
+    }
+    
     
     //MARK: - UI Setup
     private func setupUI() {

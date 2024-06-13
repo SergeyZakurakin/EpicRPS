@@ -49,6 +49,8 @@ final class MainViewController: UIViewController {
     // MARK: - Private methods
     @objc private func startButtonPressed(_ sender: UIButton) {
         print("START")
+        let gameVC = GameViewController()
+        navigationController?.pushViewController(gameVC, animated: true)
     }
     
     @objc private func resultButtonPressed(_ sender: UIButton) {
@@ -61,6 +63,7 @@ final class MainViewController: UIViewController {
         
         setupView()
         setupConstraint()
+        setupNavBar(on: self, title: nil, leftImage: .settings, leftSelector: nil, rightImage: .rules, rightSelector: #selector(goToRulesVC))
     }
 }
 
@@ -82,6 +85,13 @@ extension MainViewController {
         startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
         resultButton.addTarget(self, action: #selector(resultButtonPressed), for: .touchUpInside)
     }
+    
+    
+    @objc private func goToRulesVC() {
+        let vc = RulesViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     private func setupConstraint() {
         NSLayoutConstraint.activate([
@@ -127,16 +137,10 @@ extension UIButton {
     convenience init(textLabel: String) {
         self.init()
         
-        var configuration = UIButton.Configuration.plain()
-        
-        configuration.background.image = UIImage(resource: .buttonBackground)
-        configuration.baseForegroundColor = UIColor(resource: .brownDarker)
-        
-        configuration.title = textLabel
-        self.configuration = configuration
-        
-        self.titleLabel?.font = UIFont(name: "Rubik-Bold", size: 30)
-        
+        self.setTitle(textLabel, for: .normal)
+        self.setBackgroundImage(.buttonBackground, for: .normal)
+        self.setTitleColor(.brownDarker, for: .normal)
+        self.titleLabel?.font = Font.getFont(.rubickBold, size: 16)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
