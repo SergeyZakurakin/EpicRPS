@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160BC2752C1B6B4200944C89 /* UILabel + App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BC2742C1B6B4200944C89 /* UILabel + App.swift */; };
 		526DF76D2C1B5DBA008A7818 /* FightLooseResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		160BC2742C1B6B4200944C89 /* UILabel + App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + App.swift"; sourceTree = "<group>"; };
 		526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FightLooseResultsViewController.swift; sourceTree = "<group>"; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				5272E2B02C1A6ADC0083F7FC /* UIViewController + ext.swift */,
+				160BC2742C1B6B4200944C89 /* UILabel + App.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5272E2752C16818C0083F7FC /* FightLoadView.swift in Sources */,
+				160BC2752C1B6B4200944C89 /* UILabel + App.swift in Sources */,
 				5272E2752C16818C0083F7FC /* FightLoadView.swift in Sources */,
 				5272E2AF2C1A6AA50083F7FC /* RPSPlayerInfoView.swift in Sources */,
 				5272E2B22C1A6ADC0083F7FC /* UIViewController + ext.swift in Sources */,
