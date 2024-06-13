@@ -36,7 +36,28 @@ final class GameViewController: UIViewController {
         return button
     }()
     
+    
+    private let fightLoadView = FightLoadView(playerWinScore: 23, playerLoseScore: 1, computerWinScore: 10, computerLoseScore: 2)
+    
+    
     // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.title = ""
+    }
+
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.title = "Game"
+            self.fightLoadView.removeFromSuperview()
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +86,7 @@ final class GameViewController: UIViewController {
         view.addSubview(rockButton)
         view.addSubview(paperButton)
         view.addSubview(scissorsButton)
+        view.addSubview(fightLoadView)
         
         gameBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -143,9 +165,16 @@ final class GameViewController: UIViewController {
             scissorsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
             scissorsButton.widthAnchor.constraint(equalToConstant: 80),
-            scissorsButton.heightAnchor.constraint(equalToConstant: 80)
+            scissorsButton.heightAnchor.constraint(equalToConstant: 80),
             
-        
+            
+            
+            fightLoadView.topAnchor.constraint(equalTo: view.topAnchor),
+            fightLoadView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            fightLoadView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            fightLoadView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            
+            
         ])
     }
    
