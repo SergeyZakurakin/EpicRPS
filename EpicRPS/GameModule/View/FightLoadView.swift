@@ -100,7 +100,7 @@ private extension FightLoadView {
             readinessLabel.widthAnchor.constraint(equalToConstant: 110),
             
             
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 80),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 150),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             stackView.bottomAnchor.constraint(equalTo: readinessLabel.topAnchor, constant: -100)
