@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76A2C1B4115008A7818 /* UIView + ext.swift */; };
+		526DF76F2C1B71F4008A7818 /* RPSSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76E2C1B71F4008A7818 /* RPSSign.swift */; };
+		526DF7712C1B7291008A7818 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7702C1B7291008A7818 /* GameState.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
@@ -30,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		526DF76A2C1B4115008A7818 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
+		526DF76E2C1B71F4008A7818 /* RPSSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RPSSign.swift; path = EpicRPS/SupportingFiles/Extensions/RPSSign.swift; sourceTree = SOURCE_ROOT; };
+		526DF7702C1B7291008A7818 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = EpicRPS/SupportingFiles/Extensions/GameState.swift; sourceTree = SOURCE_ROOT; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +202,8 @@
 		5272E2662C167F130083F7FC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				526DF76E2C1B71F4008A7818 /* RPSSign.swift */,
+				526DF7702C1B7291008A7818 /* GameState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -305,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				5272E2B02C1A6ADC0083F7FC /* UIViewController + ext.swift */,
+				526DF76A2C1B4115008A7818 /* UIView + ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -390,9 +399,12 @@
 				5272E2AF2C1A6AA50083F7FC /* RPSPlayerInfoView.swift in Sources */,
 				5272E2B22C1A6ADC0083F7FC /* UIViewController + ext.swift in Sources */,
 				5272E2AE2C1A6AA50083F7FC /* RPSTitleLabel.swift in Sources */,
+				526DF7712C1B7291008A7818 /* GameState.swift in Sources */,
 				5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */,
+				526DF76F2C1B71F4008A7818 /* RPSSign.swift in Sources */,
 				5272E25E2C1676940083F7FC /* Font.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
+				526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */,
 				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E2AD2C1A6AA50083F7FC /* RPSImageView.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
