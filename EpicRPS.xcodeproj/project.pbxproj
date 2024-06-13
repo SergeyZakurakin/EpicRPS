@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		526DF76D2C1B5DBA008A7818 /* FightLooseResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FightLooseResultsViewController.swift; sourceTree = "<group>"; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -248,8 +250,8 @@
 		5272E27D2C1682160083F7FC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */,
 				5272E2802C16823B0083F7FC /* FightResultsViewController.swift */,
-				F9DFE4182C1A59CC002A36E8 /* FightLooseResultsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -397,6 +399,7 @@
 				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E2AD2C1A6AA50083F7FC /* RPSImageView.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
+				526DF76D2C1B5DBA008A7818 /* FightLooseResultsViewController.swift in Sources */,
 				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,
 				5272E26F2C167FC40083F7FC /* MainViewController.swift in Sources */,
 			);
