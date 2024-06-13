@@ -249,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				5272E2802C16823B0083F7FC /* FightResultsViewController.swift */,
+				F9DFE4182C1A59CC002A36E8 /* FightLooseResultsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
