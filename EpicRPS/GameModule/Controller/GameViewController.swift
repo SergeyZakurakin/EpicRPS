@@ -9,6 +9,12 @@ import UIKit
 
 final class GameViewController: UIViewController {
     
+    //MARK: - Properties
+    
+    lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
+    lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
+    
+
     // MARK: - UI Components
     private let gameBackgroundImageView = RPSImageView(image: .gameBackground)
     private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
@@ -39,9 +45,8 @@ final class GameViewController: UIViewController {
         return button
     }()
     
-    
-    private let fightLoadView = FightLoadView(playerWinScore: 23, playerLoseScore: 1, computerWinScore: 10, computerLoseScore: 2)
-    
+    private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
+
     
     //MARK: - buttons
     
@@ -88,7 +93,7 @@ final class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.fightLoadView.removeFromSuperview()
             self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: nil)
             self.updateUI(state: .start)
@@ -105,6 +110,7 @@ final class GameViewController: UIViewController {
         setupUI()
         setupConstain()
         setupButtons()
+        fightLoadView.configureView(with: user, and: computer)
     }
     
     
