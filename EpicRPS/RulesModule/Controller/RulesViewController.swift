@@ -28,6 +28,7 @@ final class RulesViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setBackgroundImage(.rock, for: .normal)
         button.layer.cornerRadius = 15
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -36,6 +37,7 @@ final class RulesViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setBackgroundImage(.paper, for: .normal)
         button.layer.cornerRadius = 15
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -44,6 +46,7 @@ final class RulesViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setBackgroundImage(.scissors, for: .normal)
         button.layer.cornerRadius = 15
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -82,6 +85,16 @@ final class RulesViewController: UIViewController {
         rulesLabelArray[index].numberOfLines = 0
         rulesLabelArray[index].textAlignment = .left
         
+        // shadow settings
+        rulesLabelArray[index].layer.applySketchShadow(
+            color: .black,
+            alpha: 0.6,
+            x: 0,
+            y: 4,
+            blur: 6,
+            spread: 0
+        )
+
         if twoColored {
             let string = NSMutableAttributedString(string: text)
             string.setColorForText(textToColor, with: .blueLight)
@@ -93,11 +106,23 @@ final class RulesViewController: UIViewController {
     
     private func createRuleIndexBtn(index: Int) {
         rulesIndexBtnArray.append(UIButton(type: .system))
-        rulesIndexBtnArray[index].titleLabel?.font = UIFont(name: "dela-gothic-one", size: 16)
-        rulesIndexBtnArray[index].tintColor = .greyBlack
+        rulesIndexBtnArray[index].titleLabel?.font = Font.getFont(.poppinsBlack, size: 16)
+        
+        
         rulesIndexBtnArray[index].backgroundColor = .yellowLight
+        rulesIndexBtnArray[index].tintColor = .black
         rulesIndexBtnArray[index].layer.cornerRadius = 15
         rulesIndexBtnArray[index].setTitle("\(index + 1)", for: .normal)
+        rulesIndexBtnArray[index].isEnabled = false
+        
+        rulesIndexBtnArray[index].layer.applySketchShadow(
+            color: .black,
+            alpha: 0.5,
+            x: 1,
+            y: 5,
+            blur: 10,
+            spread: 0
+        )
         rulesIndexBtnArray[index].translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(rulesIndexBtnArray[index])
@@ -209,3 +234,26 @@ extension NSMutableAttributedString {
     }
 }
 
+extension CALayer {
+  func applySketchShadow(
+    color: UIColor = .black,
+    alpha: Float = 0.5,
+    x: CGFloat = 0,
+    y: CGFloat = 2,
+    blur: CGFloat = 4,
+    spread: CGFloat = 0)
+  {
+    masksToBounds = false
+    shadowColor = color.cgColor
+    shadowOpacity = alpha
+    shadowOffset = CGSize(width: x, height: y)
+    shadowRadius = blur / 2.0
+    if spread == 0 {
+      shadowPath = nil
+    } else {
+      let dx = -spread
+      let rect = bounds.insetBy(dx: dx, dy: dx)
+      shadowPath = UIBezierPath(rect: rect).cgPath
+    }
+  }
+}
