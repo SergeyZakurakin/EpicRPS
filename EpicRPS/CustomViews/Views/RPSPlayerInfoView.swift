@@ -27,21 +27,14 @@ final class RPSPlayerInfoView: UIView {
     
     //MARK: - Lifecycle
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(player: Player) {
+        super.init(frame: .zero)
         
         configure()
         setConstraints()
-    }
-    
-    
-    convenience init(image: UIImage,
-                     winScore: String,
-                     loseScore: String) {
-        self.init()
         
-        characterImage.image = image
-        statisticLabel.attributedText = setLabels(winScore: winScore, victoryLabel: " Victories/", loseScore: loseScore, loseLabel: " Lose")
+        characterImage.image = player.character
+        statisticLabel.attributedText = setLabels(winScore: player.victories, victoryLabel: " Victories/", loseScore: player.loses, loseLabel: " Lose")
     }
     
     

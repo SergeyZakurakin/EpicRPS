@@ -2,6 +2,13 @@ import UIKit
 
 final class FightLooseResultsViewController: UIViewController {
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fightLooseResultsView()
