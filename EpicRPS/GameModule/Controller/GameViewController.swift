@@ -26,6 +26,8 @@ final class GameViewController: UIViewController {
     private var totalTime = 30
     private var timeLabel = RPSTitleLabel(text: "0:00",fontSize: 12, color: .white)
     private let playersResultScale = RPSImageView(frame: .zero)
+    private var timeScale = RPSImageView(frame: .zero)
+    private var timeLabel = RPSTitleLabel(text: "0:30",fontSize: 12, color: .white)
     private let scaleMiddleLine = RPSImageView(frame: .zero)
     private let firstPlayerScaleImage = RPSImageView(image: .alien)
     private let secondPlayerScaleImage = RPSImageView(image: .wrestler)
@@ -51,8 +53,9 @@ final class GameViewController: UIViewController {
     private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
 
     private lazy var progressCounter: UIProgressView = {
+    private lazy var playersResultProgressView: UIProgressView = {
         let element = UIProgressView()
-        element.progress = 0.5
+        element.progress = 0.4
         element.progressTintColor = UIColor(resource: .greenLighter)
         element.trackTintColor = UIColor(resource: .blueLight)
         element.layer.cornerRadius = 6.5
@@ -116,11 +119,12 @@ final class GameViewController: UIViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         playersResultScale.backgroundColor = .blueLight
+        timeScale.backgroundColor = .blueLight
+//        playersResultScale.backgroundColor = .blueLight
         scaleMiddleLine.backgroundColor = .white
         timeProgressScaleView.progress = 0.0
         secondPassed = 0
@@ -262,7 +266,7 @@ final class GameViewController: UIViewController {
         view.addSubview(timeProgressScaleView)
 
         view.addSubview(timeLabel)
-        view.addSubview(playersResultScale)
+        view.addSubview(playersResultProgressView)
         view.addSubview(scaleMiddleLine)
         view.addSubview(firstPlayerScaleImage)
         view.addSubview(secondPlayerScaleImage)
@@ -273,7 +277,6 @@ final class GameViewController: UIViewController {
         view.addSubview(scissorsBtnBackground)
         scissorsBtnBackground.addSubview(scissorsButton)
         view.addSubview(fightLoadView)
-        view.addSubview(progressCounter)
         
         fightLoadView.configureView(with: user, and: computer)
         
@@ -283,7 +286,6 @@ final class GameViewController: UIViewController {
         baseMaleHand.translatesAutoresizingMaskIntoConstraints = false
 
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        playersResultScale.translatesAutoresizingMaskIntoConstraints = false
         scaleMiddleLine.translatesAutoresizingMaskIntoConstraints = false
         firstPlayerScaleImage.translatesAutoresizingMaskIntoConstraints = false
         secondPlayerScaleImage.translatesAutoresizingMaskIntoConstraints = false
@@ -318,25 +320,19 @@ final class GameViewController: UIViewController {
             timeLabel.widthAnchor.constraint(equalToConstant: 40),
             timeLabel.heightAnchor.constraint(equalToConstant: 14),
             
-            playersResultScale.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            playersResultScale.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 351),
-            playersResultScale.widthAnchor.constraint(equalToConstant: 10),
-            playersResultScale.heightAnchor.constraint(equalToConstant: 295),
-            
-            scaleMiddleLine.topAnchor.constraint(equalTo: playersResultScale.topAnchor, constant: 147),
-            scaleMiddleLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 346),
+            scaleMiddleLine.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            scaleMiddleLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             scaleMiddleLine.widthAnchor.constraint(equalToConstant: 18),
             scaleMiddleLine.heightAnchor.constraint(equalToConstant: 1),
             
-            firstPlayerScaleImage.topAnchor.constraint(equalTo: playersResultScale.topAnchor, constant: -21),
-            firstPlayerScaleImage.centerXAnchor.constraint(equalTo: playersResultScale.centerXAnchor),
-            firstPlayerScaleImage.widthAnchor.constraint(equalToConstant: 36),
-            firstPlayerScaleImage.heightAnchor.constraint(equalToConstant: 42),
+            firstPlayerScaleImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140),
+            firstPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            firstPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
             
-            secondPlayerScaleImage.topAnchor.constraint(equalTo: playersResultScale.bottomAnchor, constant: -21),
-            secondPlayerScaleImage.centerXAnchor.constraint(equalTo: playersResultScale.centerXAnchor),
-            secondPlayerScaleImage.widthAnchor.constraint(equalToConstant: 36),
-            secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 42),
+            secondPlayerScaleImage.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
+            secondPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
+            
             
             rockBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             rockBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
@@ -356,11 +352,19 @@ final class GameViewController: UIViewController {
             paperButton.centerXAnchor.constraint(equalTo: paperBtnBackground.centerXAnchor),
             paperButton.centerYAnchor.constraint(equalTo: paperBtnBackground.centerYAnchor),
             
+            paperButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
+            paperButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            paperButton.widthAnchor.constraint(equalToConstant: 80),
+            paperButton.heightAnchor.constraint(equalToConstant: 80),
             scissorsBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             scissorsBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
             scissorsBtnBackground.widthAnchor.constraint(equalToConstant: 80),
             scissorsBtnBackground.heightAnchor.constraint(equalToConstant: 80),
             
+            scissorsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
+            scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
+            scissorsButton.widthAnchor.constraint(equalToConstant: 80),
+            scissorsButton.heightAnchor.constraint(equalToConstant: 80),
             scissorsButton.centerXAnchor.constraint(equalTo: scissorsBtnBackground.centerXAnchor),
             scissorsButton.centerYAnchor.constraint(equalTo: scissorsBtnBackground.centerYAnchor),
             //
@@ -371,6 +375,10 @@ final class GameViewController: UIViewController {
             progressCounter.heightAnchor.constraint(equalToConstant: 10),
             
             
+            playersResultProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            playersResultProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            playersResultProgressView.widthAnchor.constraint(equalToConstant: 310),
+            playersResultProgressView.heightAnchor.constraint(equalToConstant: 10),
             
             fightLoadView.topAnchor.constraint(equalTo: view.topAnchor),
             fightLoadView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
