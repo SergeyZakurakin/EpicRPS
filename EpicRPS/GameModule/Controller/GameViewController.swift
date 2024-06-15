@@ -36,6 +36,19 @@ final class GameViewController: UIViewController {
         return button
     }()
     
+    private lazy var progressCounter: UIProgressView = {
+        let element = UIProgressView()
+        element.progress = 0.5
+        element.progressTintColor = UIColor(resource: .greenLighter)
+        element.trackTintColor = UIColor(resource: .blueLight)
+        element.layer.cornerRadius = 6.5
+        element.clipsToBounds = true
+        element.transform = CGAffineTransform(rotationAngle: .pi / -2)
+        
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
     
     private let fightLoadView = FightLoadView(playerWinScore: 23, playerLoseScore: 1, computerWinScore: 10, computerLoseScore: 2)
     
@@ -96,6 +109,7 @@ final class GameViewController: UIViewController {
         view.addSubview(paperButton)
         view.addSubview(scissorsButton)
         view.addSubview(fightLoadView)
+        view.addSubview(progressCounter)
         
         gameBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -175,6 +189,13 @@ final class GameViewController: UIViewController {
             scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
             scissorsButton.widthAnchor.constraint(equalToConstant: 80),
             scissorsButton.heightAnchor.constraint(equalToConstant: 80),
+            
+            //
+            progressCounter.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 130),
+            progressCounter.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            progressCounter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            progressCounter.widthAnchor.constraint(equalToConstant: 260),
+            progressCounter.heightAnchor.constraint(equalToConstant: 10),
             
             
             
