@@ -116,6 +116,8 @@ final class GameViewController: UIViewController {
         
         setupConstain()
         setupButtons()
+        createTimeProgress(timeProgressScaleView)
+        createTimer()
     }
     
     
@@ -199,11 +201,7 @@ final class GameViewController: UIViewController {
     }
     
     
-    private func updateScoreProgressView() {
-        createTimeProgress(timeProgressScaleView)
-        createTimer()
         
-    }
     
     
     //MARK: - actions
