@@ -110,7 +110,6 @@ final class GameViewController: UIViewController {
         setupUI()
         setupConstain()
         setupButtons()
-        fightLoadView.configureView(with: user, and: computer)
     }
     
     
@@ -147,12 +146,14 @@ final class GameViewController: UIViewController {
         case .rock:
             baseFameleHand.image = .rockFemaleHand
         case .paper:
-            baseFameleHand.image = .scissorsFemaleHand
+            baseFameleHand.image = .paperFemaleHand
         case .scissors:
             baseFameleHand.image = .scissorsFemaleHand
         }
     }
     
+    var userScore = 0
+    var computerScore = 0
     
     private func play(sign: RPSSign) {
         let computerSign = RPSSign.randomSign()
@@ -161,6 +162,39 @@ final class GameViewController: UIViewController {
         updateUI(state: gameState)
         updatePlayerUI(sign: sign)
         updateComputerUI(sign: computerSign)
+        
+        if gameState == .win {
+            userScore += 1
+        } else if gameState == .lose {
+            computerScore += 1
+        }
+        
+        //update progress view counter
+        if userScore == 3 {
+            goToWinResultsVC()
+        } else if computerScore == 3 {
+            goToLoseResultsVC()
+        }
+        
+        print(sign, userScore)
+        print(computerSign, computerScore)
+    }
+    
+    
+    private func goToWinResultsVC() {
+        let resultsVC = FightResultsViewController()
+        navigationController?.pushViewController(resultsVC, animated: true)
+    }
+    
+    
+    private func goToLoseResultsVC() {
+        let resultsVC = FightLooseResultsViewController()
+        navigationController?.pushViewController(resultsVC, animated: true)
+    }
+    
+    
+    private func updateScoreProgressView() {
+        
     }
     
     
@@ -219,6 +253,8 @@ final class GameViewController: UIViewController {
         view.addSubview(scissorsBtnBackground)
         scissorsBtnBackground.addSubview(scissorsButton)
         view.addSubview(fightLoadView)
+        
+        fightLoadView.configureView(with: user, and: computer)
         
         gameBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
