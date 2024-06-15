@@ -14,7 +14,6 @@ final class GameViewController: UIViewController {
     lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
     lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
     
-
     // MARK: - UI Components
     private let gameBackgroundImageView = RPSImageView(image: .gameBackground)
     private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
@@ -24,7 +23,7 @@ final class GameViewController: UIViewController {
     private var timer = Timer()
     private var secondPassed = 0
     private var totalTime = 30
-    private var timeLabel = RPSTitleLabel(text: "0:00",fontSize: 12, color: .white)
+//    private var timeLabel = RPSTitleLabel(text: "0:00",fontSize: 12, color: .white)
     private let playersResultScale = RPSImageView(frame: .zero)
     private var timeScale = RPSImageView(frame: .zero)
     private var timeLabel = RPSTitleLabel(text: "0:30",fontSize: 12, color: .white)
@@ -51,8 +50,7 @@ final class GameViewController: UIViewController {
     }()
     
     private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
-
-    private lazy var progressCounter: UIProgressView = {
+    
     private lazy var playersResultProgressView: UIProgressView = {
         let element = UIProgressView()
         element.progress = 0.4
@@ -121,14 +119,14 @@ final class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         playersResultScale.backgroundColor = .blueLight
         timeScale.backgroundColor = .blueLight
-//        playersResultScale.backgroundColor = .blueLight
+        //        playersResultScale.backgroundColor = .blueLight
         scaleMiddleLine.backgroundColor = .white
         timeProgressScaleView.progress = 0.0
         secondPassed = 0
-       
+        
         setupUI()
         
         setupConstain()
@@ -218,7 +216,7 @@ final class GameViewController: UIViewController {
     }
     
     
-        
+    
     
     
     //MARK: - actions
@@ -264,7 +262,7 @@ final class GameViewController: UIViewController {
         view.addSubview(baseFameleHand)
         view.addSubview(baseMaleHand)
         view.addSubview(timeProgressScaleView)
-
+        
         view.addSubview(timeLabel)
         view.addSubview(playersResultProgressView)
         view.addSubview(scaleMiddleLine)
@@ -284,7 +282,7 @@ final class GameViewController: UIViewController {
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
         baseFameleHand.translatesAutoresizingMaskIntoConstraints = false
         baseMaleHand.translatesAutoresizingMaskIntoConstraints = false
-
+        
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         scaleMiddleLine.translatesAutoresizingMaskIntoConstraints = false
         firstPlayerScaleImage.translatesAutoresizingMaskIntoConstraints = false
@@ -352,27 +350,19 @@ final class GameViewController: UIViewController {
             paperButton.centerXAnchor.constraint(equalTo: paperBtnBackground.centerXAnchor),
             paperButton.centerYAnchor.constraint(equalTo: paperBtnBackground.centerYAnchor),
             
-            paperButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
-            paperButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            paperButton.widthAnchor.constraint(equalToConstant: 80),
-            paperButton.heightAnchor.constraint(equalToConstant: 80),
             scissorsBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             scissorsBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
             scissorsBtnBackground.widthAnchor.constraint(equalToConstant: 80),
             scissorsBtnBackground.heightAnchor.constraint(equalToConstant: 80),
             
-            scissorsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
-            scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
-            scissorsButton.widthAnchor.constraint(equalToConstant: 80),
-            scissorsButton.heightAnchor.constraint(equalToConstant: 80),
             scissorsButton.centerXAnchor.constraint(equalTo: scissorsBtnBackground.centerXAnchor),
             scissorsButton.centerYAnchor.constraint(equalTo: scissorsBtnBackground.centerYAnchor),
             //
-            progressCounter.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 130),
-            progressCounter.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            progressCounter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            progressCounter.widthAnchor.constraint(equalToConstant: 260),
-            progressCounter.heightAnchor.constraint(equalToConstant: 10),
+            //                progressCounter.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 130),
+            //                progressCounter.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            //                //            progressCounter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            //                progressCounter.widthAnchor.constraint(equalToConstant: 260),
+            //                progressCounter.heightAnchor.constraint(equalToConstant: 10),
             
             
             playersResultProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
@@ -386,7 +376,7 @@ final class GameViewController: UIViewController {
             fightLoadView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-   
+    
     
     //MARK: - TimeScaleUI
     
@@ -423,7 +413,7 @@ final class GameViewController: UIViewController {
             print(percentageProgress)
         } else {
             timer.invalidate()
-        
+            
         }
         
     }
