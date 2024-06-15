@@ -86,12 +86,10 @@ extension MainViewController {
         resultButton.addTarget(self, action: #selector(resultButtonPressed), for: .touchUpInside)
     }
     
-    
     @objc private func goToRulesVC() {
         let vc = RulesViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
-    
     
     private func setupConstraint() {
         NSLayoutConstraint.activate([

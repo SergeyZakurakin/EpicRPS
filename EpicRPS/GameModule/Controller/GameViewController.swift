@@ -246,12 +246,12 @@ final class GameViewController: UIViewController {
             fightLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             fightLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            baseFameleHand.bottomAnchor.constraint(equalTo: fightLabel.topAnchor,constant: -30),
+            baseFameleHand.bottomAnchor.constraint(equalTo: fightLabel.topAnchor,constant: -40),
             baseFameleHand.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 90),
             baseFameleHand.widthAnchor.constraint(equalToConstant: 147),
             baseFameleHand.heightAnchor.constraint(equalToConstant: 423),
             
-            baseMaleHand.topAnchor.constraint(equalTo: fightLabel.bottomAnchor,constant: 30),
+            baseMaleHand.topAnchor.constraint(equalTo: fightLabel.bottomAnchor,constant: 40),
             baseMaleHand.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 142),
             baseMaleHand.widthAnchor.constraint(equalToConstant: 155),
             baseMaleHand.heightAnchor.constraint(equalToConstant: 423),
