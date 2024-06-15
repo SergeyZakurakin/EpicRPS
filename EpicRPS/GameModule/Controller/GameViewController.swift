@@ -14,8 +14,11 @@ final class GameViewController: UIViewController {
     private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
     private var baseFameleHand = RPSImageView(image: .baseFemaleHand)
     private var baseMaleHand = RPSImageView(image: .baseMaleHand)
-    private var timeScale = RPSImageView(frame: .zero)
-    private var timeLabel = RPSTitleLabel(text: "0:30",fontSize: 12, color: .white)
+    private var timeProgressScaleView = UIProgressView()
+    private var timer = Timer()
+    private var secondPassed = 0
+    private var totalTime = 30
+    private var timeLabel = RPSTitleLabel(text: "0:00",fontSize: 12, color: .white)
     private let playersResultScale = RPSImageView(frame: .zero)
     private let scaleMiddleLine = RPSImageView(frame: .zero)
     private let firstPlayerScaleImage = RPSImageView(image: .alien)
@@ -62,12 +65,18 @@ final class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        timeScale.backgroundColor = .blueLight
+
         playersResultScale.backgroundColor = .blueLight
         scaleMiddleLine.backgroundColor = .white
-        timeScale.layer.cornerRadius = 6
+        timeProgressScaleView.progress = 0.0
+        secondPassed = 0
+       
         setupUI()
+        
         setupConstain()
+        createTimeProgress(timeProgressScaleView)
+        createTimer()
+        
     }
     
     
@@ -86,7 +95,8 @@ final class GameViewController: UIViewController {
         view.addSubview(fightLabel)
         view.addSubview(baseFameleHand)
         view.addSubview(baseMaleHand)
-        view.addSubview(timeScale)
+        view.addSubview(timeProgressScaleView)
+
         view.addSubview(timeLabel)
         view.addSubview(playersResultScale)
         view.addSubview(scaleMiddleLine)
@@ -101,7 +111,7 @@ final class GameViewController: UIViewController {
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
         baseFameleHand.translatesAutoresizingMaskIntoConstraints = false
         baseMaleHand.translatesAutoresizingMaskIntoConstraints = false
-        timeScale.translatesAutoresizingMaskIntoConstraints = false
+
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         playersResultScale.translatesAutoresizingMaskIntoConstraints = false
         scaleMiddleLine.translatesAutoresizingMaskIntoConstraints = false
@@ -131,14 +141,9 @@ final class GameViewController: UIViewController {
             baseMaleHand.widthAnchor.constraint(equalToConstant: 155),
             baseMaleHand.heightAnchor.constraint(equalToConstant: 423),
             
-            timeScale.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            timeScale.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
-            timeScale.widthAnchor.constraint(equalToConstant: 10),
-            timeScale.heightAnchor.constraint(equalToConstant: 166),
-            
-            timeLabel.topAnchor.constraint(equalTo: timeScale.bottomAnchor, constant: 5),
+            timeLabel.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 87),
             timeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 27),
-            timeLabel.widthAnchor.constraint(equalToConstant: 27),
+            timeLabel.widthAnchor.constraint(equalToConstant: 40),
             timeLabel.heightAnchor.constraint(equalToConstant: 14),
             
             playersResultScale.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -187,6 +192,46 @@ final class GameViewController: UIViewController {
         ])
     }
    
+    
+    //MARK: - TimeScaleUI
+    
+    func createTimeProgress(_ progressView: UIProgressView){
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.setProgress(0.0, animated: false)
+        progressView.transform = CGAffineTransform(rotationAngle:  -.pi / 2)
+        progressView.progressTintColor = .greenLighter
+        progressView.trackTintColor = .blueLight
+        progressView.progressViewStyle = .bar
+        progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -35).isActive = true
+        progressView.widthAnchor.constraint(equalToConstant: 166).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+    }
+    
+    //MARK: - Time
+    func createTimer() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimerScale), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func updateTimerScale() {
+        if secondPassed < totalTime {
+            secondPassed += 1
+            
+            let percentageProgress = Float(secondPassed) / Float(totalTime)
+            
+            timeProgressScaleView.progress = percentageProgress
+            timeLabel.text = "00:\(secondPassed/10)\(secondPassed%10)"
+            
+            print(secondPassed)
+            print(percentageProgress)
+        } else {
+            timer.invalidate()
+        
+        }
+        
+    }
     
     
 }
