@@ -9,6 +9,12 @@ import UIKit
 
 final class GameViewController: UIViewController {
     
+    //MARK: - Properties
+    
+    lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
+    lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
+    
+
     // MARK: - UI Components
     private let gameBackgroundImageView = RPSImageView(image: .gameBackground)
     private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
@@ -25,22 +31,56 @@ final class GameViewController: UIViewController {
     private let secondPlayerScaleImage = RPSImageView(image: .wrestler)
     private var rockButton : UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(.rock, for: .normal)
+        button.setBackgroundImage(.rockBtn.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
         return button
     }()
     private var paperButton : UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(.paper, for: .normal)
+        button.setBackgroundImage(.paperBtn.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
         return button
     }()
     private var scissorsButton : UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(.scissors, for: .normal)
+        button.setBackgroundImage(.scissorsBtn.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
         return button
     }()
     
+    private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
+
     
-    private let fightLoadView = FightLoadView(playerWinScore: 23, playerLoseScore: 1, computerWinScore: 10, computerLoseScore: 2)
+    //MARK: - buttons
+    
+    private let rockBtnBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blueBase
+        view.alpha = 0.75
+        view.layer.cornerRadius = 40
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    private let paperBtnBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blueBase
+        view.alpha = 0.75
+        view.layer.cornerRadius = 40
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    private let scissorsBtnBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blueBase
+        view.alpha = 0.75
+        view.layer.cornerRadius = 40
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     
     // MARK: - Lifecycle
@@ -51,7 +91,7 @@ final class GameViewController: UIViewController {
         self.title = ""
         self.navigationItem.setHidesBackButton(true, animated: true)
     }
-
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -59,6 +99,7 @@ final class GameViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.fightLoadView.removeFromSuperview()
             self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: nil)
+            self.updateUI(state: .start)
         }
     }
     
@@ -74,13 +115,125 @@ final class GameViewController: UIViewController {
         setupUI()
         
         setupConstain()
+        setupButtons()
+    }
+    
+    
+    //MARK: - game logic
+    
+    private func updateUI(state: GameState) {
+        switch state {
+        case .start:
+            fightLabel.text = "FIGHT"
+        case .win:
+            fightLabel.text = "WIN"
+        case .lose:
+            fightLabel.text = "LOSE"
+        case .draw:
+            fightLabel.text = "DRAW"
+        }
+    }
+    
+    
+    private func updatePlayerUI(sign: RPSSign) {
+        switch sign {
+        case .rock:
+            baseMaleHand.image = .rockMaleHand
+        case .paper:
+            baseMaleHand.image = .paperMaleHand
+        case .scissors:
+            baseMaleHand.image = .scissorsMaleHand
+        }
+    }
+    
+    
+    private func updateComputerUI(sign: RPSSign) {
+        switch sign {
+        case .rock:
+            baseFameleHand.image = .rockFemaleHand
+        case .paper:
+            baseFameleHand.image = .paperFemaleHand
+        case .scissors:
+            baseFameleHand.image = .scissorsFemaleHand
+        }
+    }
+    
+    var userScore = 0
+    var computerScore = 0
+    
+    private func play(sign: RPSSign) {
+        let computerSign = RPSSign.randomSign()
+        let gameState = sign.getGameState(computerSign: computerSign)
+        
+        updateUI(state: gameState)
+        updatePlayerUI(sign: sign)
+        updateComputerUI(sign: computerSign)
+        
+        if gameState == .win {
+            userScore += 1
+        } else if gameState == .lose {
+            computerScore += 1
+        }
+        
+        //update progress view counter
+        if userScore == 3 {
+            goToWinResultsVC()
+        } else if computerScore == 3 {
+            goToLoseResultsVC()
+        }
+        
+        print(sign, userScore)
+        print(computerSign, computerScore)
+    }
+    
+    
+    private func goToWinResultsVC() {
+        let resultsVC = FightResultsViewController()
+        navigationController?.pushViewController(resultsVC, animated: true)
+    }
+    
+    
+    private func goToLoseResultsVC() {
+        let resultsVC = FightLooseResultsViewController()
+        navigationController?.pushViewController(resultsVC, animated: true)
+    }
+    
+    
+    private func updateScoreProgressView() {
         createTimeProgress(timeProgressScaleView)
         createTimer()
         
     }
     
     
-    //MARK: - Internal Methods
+    //MARK: - actions
+    
+    @objc private func rockButtonTapped() {
+        rockButton.tintColor = .yellowLighter
+        rockBtnBackground.backgroundColor = .blueDarker
+        rockBtnBackground.addTopInnerShadow()
+        
+        play(sign: .rock)
+    }
+    
+    
+    @objc private func paperButtonTapped() {
+        paperBtnBackground.addTopInnerShadow()
+        play(sign: .paper)
+    }
+    
+    
+    @objc private func scissorsButtonTapped() {
+        play(sign: .scissors)
+    }
+    
+    
+    private func setupButtons() {
+        rockButton.addTarget(self, action: #selector(rockButtonTapped), for: .touchUpInside)
+        paperButton.addTarget(self, action: #selector(paperButtonTapped), for: .touchUpInside)
+        scissorsButton.addTarget(self, action: #selector(scissorsButtonTapped), for: .touchUpInside)
+    }
+    
     
     @objc private func backToMainVC() {
         let mainVC = MainViewController()
@@ -102,10 +255,15 @@ final class GameViewController: UIViewController {
         view.addSubview(scaleMiddleLine)
         view.addSubview(firstPlayerScaleImage)
         view.addSubview(secondPlayerScaleImage)
-        view.addSubview(rockButton)
-        view.addSubview(paperButton)
-        view.addSubview(scissorsButton)
+        view.addSubview(rockBtnBackground)
+        rockBtnBackground.addSubview(rockButton)
+        view.addSubview(paperBtnBackground)
+        paperBtnBackground.addSubview(paperButton)
+        view.addSubview(scissorsBtnBackground)
+        scissorsBtnBackground.addSubview(scissorsButton)
         view.addSubview(fightLoadView)
+        
+        fightLoadView.configureView(with: user, and: computer)
         
         gameBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         fightLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -121,6 +279,8 @@ final class GameViewController: UIViewController {
         paperButton.translatesAutoresizingMaskIntoConstraints = false
         scissorsButton.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    
     private func setupConstain() {
         NSLayoutConstraint.activate([
             gameBackgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -166,29 +326,37 @@ final class GameViewController: UIViewController {
             secondPlayerScaleImage.widthAnchor.constraint(equalToConstant: 36),
             secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 42),
             
-            rockButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
-            rockButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
-            rockButton.widthAnchor.constraint(equalToConstant: 80),
-            rockButton.heightAnchor.constraint(equalToConstant: 80),
+            rockBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
+            rockBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
+            rockBtnBackground.widthAnchor.constraint(equalToConstant: 80),
+            rockBtnBackground.heightAnchor.constraint(equalToConstant: 80),
             
-            paperButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
-            paperButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            paperButton.widthAnchor.constraint(equalToConstant: 80),
-            paperButton.heightAnchor.constraint(equalToConstant: 80),
+            rockButton.centerXAnchor.constraint(equalTo: rockBtnBackground.centerXAnchor),
+            rockButton.centerYAnchor.constraint(equalTo: rockBtnBackground.centerYAnchor),
             
-            scissorsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
-            scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
-            scissorsButton.widthAnchor.constraint(equalToConstant: 80),
-            scissorsButton.heightAnchor.constraint(equalToConstant: 80),
             
+            paperBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
+            paperBtnBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            paperBtnBackground.widthAnchor.constraint(equalToConstant: 80),
+            paperBtnBackground.heightAnchor.constraint(equalToConstant: 80),
+            
+            
+            paperButton.centerXAnchor.constraint(equalTo: paperBtnBackground.centerXAnchor),
+            paperButton.centerYAnchor.constraint(equalTo: paperBtnBackground.centerYAnchor),
+            
+            scissorsBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
+            scissorsBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
+            scissorsBtnBackground.widthAnchor.constraint(equalToConstant: 80),
+            scissorsBtnBackground.heightAnchor.constraint(equalToConstant: 80),
+            
+            scissorsButton.centerXAnchor.constraint(equalTo: scissorsBtnBackground.centerXAnchor),
+            scissorsButton.centerYAnchor.constraint(equalTo: scissorsBtnBackground.centerYAnchor),
             
             
             fightLoadView.topAnchor.constraint(equalTo: view.topAnchor),
             fightLoadView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             fightLoadView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             fightLoadView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
-            
         ])
     }
    
@@ -232,6 +400,5 @@ final class GameViewController: UIViewController {
         }
         
     }
-    
     
 }

@@ -11,18 +11,16 @@ final class FightLoadView: UIView {
     
     //MARK: - Properties
     
-    private var playerWinScore: Int
-    private var playerLoseScore: Int
-    private var computerWinScore: Int
-    private var computerLoseScore: Int
+    private var user: Player
+    private var computer: Player
     
     
     //MARK: - UI
     
     private let backgroundImageView = RPSImageView(image: .blueBackground)
     
-    private var computer = RPSPlayerInfoView()
-    private var player = RPSPlayerInfoView()
+    private lazy var userInfoView = RPSPlayerInfoView(player: user)
+    private lazy var computerInfoView = RPSPlayerInfoView(player: computer)
     
     private let announcementLabel = RPSTitleLabel(text: "VS",fontSize: 56, color: .yellowDarker)
     private let readinessLabel = RPSTitleLabel(text: "Get ready...", color: .yellowDarker)
@@ -32,15 +30,9 @@ final class FightLoadView: UIView {
     
     //MARK: - Lifecycle
     
-    init(playerWinScore: Int,
-         playerLoseScore: Int,
-         computerWinScore: Int,
-         computerLoseScore: Int) 
-    {
-        self.playerWinScore = playerWinScore
-        self.playerLoseScore = playerLoseScore
-        self.computerWinScore = computerWinScore
-        self.computerLoseScore = computerLoseScore
+    init(user: Player, computer: Player) {
+        self.user = user
+        self.computer = computer
         
         super.init(frame: .zero)
         configure()
@@ -51,6 +43,17 @@ final class FightLoadView: UIView {
     }
 }
 
+
+//MARK: - External methods
+
+extension FightLoadView {
+    func configureView(with user: Player, and computer: Player) {
+        computerInfoView = RPSPlayerInfoView(player: computer)
+        userInfoView = RPSPlayerInfoView(player: user)
+    }
+}
+
+
 //MARK: - Internal Methods
 
 private extension FightLoadView {
@@ -60,23 +63,17 @@ private extension FightLoadView {
                      readinessLabel]
         views.forEach { addSubview($0) }
         
-        configureLabels()
         configureStackViews()
         setConstraints()
+        configureView(with: user, and: computer)
         translatesAutoresizingMaskIntoConstraints = false
     }
     
     
-    func configureLabels() {
-        computer = RPSPlayerInfoView(image: .alien, winScore: "\(computerWinScore)", loseScore: "\(computerLoseScore)")
-        player = RPSPlayerInfoView(image: .wrestler, winScore: "\(playerWinScore)", loseScore: "\(playerLoseScore)")
-    }
-    
-    
     func configureStackViews() {
-        stackView.addArrangedSubview(computer)
+        stackView.addArrangedSubview(computerInfoView)
         stackView.addArrangedSubview(announcementLabel)
-        stackView.addArrangedSubview(player)
+        stackView.addArrangedSubview(userInfoView)
         
         stackView.axis = .vertical
         stackView.spacing = 60
