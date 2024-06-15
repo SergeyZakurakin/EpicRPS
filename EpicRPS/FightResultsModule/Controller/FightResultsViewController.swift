@@ -7,6 +7,17 @@ final class FightResultsViewController: UIViewController {
         fightResultsView()
         
     }
+    @objc private func homeButtonPressed(_ sender: UIButton) {
+        print("HOME")
+        let homeVC = MainViewController()
+        navigationController?.pushViewController(homeVC, animated: true)
+    }
+    
+    @objc private func restartButtonPressed(_ sender: UIButton) {
+        print("RESTART")
+        let gameVC = GameViewController()
+        navigationController?.pushViewController(gameVC, animated: true)
+    }
     
     private func fightResultsView(){
         
@@ -61,6 +72,7 @@ final class FightResultsViewController: UIViewController {
         homeButton.widthAnchor.constraint(equalToConstant: 67).isActive = true
         homeButton.topAnchor.constraint(equalTo: enemyScoreLabel.bottomAnchor, constant: 34).isActive = true
         homeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: -21).isActive = true
+        homeButton.addTarget(self, action: #selector(homeButtonPressed), for: .touchUpInside)
         
         let restartButton = UIButton()
         restartButton.setBackgroundImage(.restartbutton, for: .normal)
@@ -70,5 +82,6 @@ final class FightResultsViewController: UIViewController {
         restartButton.widthAnchor.constraint(equalToConstant: 67).isActive = true
         restartButton.topAnchor.constraint(equalTo: enemyScoreLabel.bottomAnchor, constant: 34).isActive = true
         restartButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 21).isActive = true
+        restartButton.addTarget(self, action: #selector(restartButtonPressed), for: .touchUpInside)
     }
 }
