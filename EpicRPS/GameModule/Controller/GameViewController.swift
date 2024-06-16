@@ -76,10 +76,6 @@ final class GameViewController: UIViewController {
         return element
     }()
     
-    
-    
-    
-    
     //MARK: - buttons
     
     private let rockBtnBackground: UIView = {
@@ -205,7 +201,7 @@ final class GameViewController: UIViewController {
             firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
         } else if gameState == .lose {
             computerScore += 1
-            secondPlayerProgressView.progress = Float(userScore) / Float(totalScore)
+            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
         }
         
         //update progress view counter
