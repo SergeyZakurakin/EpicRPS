@@ -27,7 +27,7 @@ final class GameViewController: UIViewController {
     private var totalTime = 30
     private let playersResultScale = RPSImageView(frame: .zero)
     private var timeScale = RPSImageView(frame: .zero)
-    private var timeLabel = RPSTitleLabel(text: "30",fontSize: 12, color: .white)
+    private var timeLabel = RPSTitleLabel(text: "0",fontSize: 12, color: .white)
     private let scaleMiddleLine = RPSImageView(frame: .zero)
     private let firstPlayerScaleImage = RPSImageView(image: .alien)
     private let secondPlayerScaleImage = RPSImageView(image: .wrestler)
@@ -445,9 +445,15 @@ final class GameViewController: UIViewController {
             
 //            print(secondPassed)
 //            print(percentageProgress)
+        } else if totalTime == 30 {
+            timer.invalidate()
+            timeLabel.text = "\(0)"
+            computerScore += 1
+            timeProgressScaleView.progress = 0
+            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+            print(computerScore)
         } else {
             timer.invalidate()
-            
         }
         
     }
