@@ -10,6 +10,8 @@ import UIKit
 final class GameViewController: UIViewController {
     
     //MARK: - Properties
+    private var isGamePaused = false
+    private var totalScore = 3
     
     lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
     lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
@@ -23,10 +25,9 @@ final class GameViewController: UIViewController {
     private var timer = Timer()
     private var secondPassed = 0
     private var totalTime = 30
-//    private var timeLabel = RPSTitleLabel(text: "0:00",fontSize: 12, color: .white)
     private let playersResultScale = RPSImageView(frame: .zero)
     private var timeScale = RPSImageView(frame: .zero)
-    private var timeLabel = RPSTitleLabel(text: "0:30",fontSize: 12, color: .white)
+    private var timeLabel = RPSTitleLabel(text: "30",fontSize: 12, color: .white)
     private let scaleMiddleLine = RPSImageView(frame: .zero)
     private let firstPlayerScaleImage = RPSImageView(image: .alien)
     private let secondPlayerScaleImage = RPSImageView(image: .wrestler)
@@ -51,18 +52,32 @@ final class GameViewController: UIViewController {
     
     private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
     
-    private lazy var playersResultProgressView: UIProgressView = {
+    private lazy var firstPlayerProgressView: UIProgressView = {
         let element = UIProgressView()
-        element.progress = 0.4
+        element.progress = 0
         element.progressTintColor = UIColor(resource: .greenLighter)
         element.trackTintColor = UIColor(resource: .blueLight)
-        element.layer.cornerRadius = 6.5
         element.clipsToBounds = true
         element.transform = CGAffineTransform(rotationAngle: .pi / -2)
         
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()
+    
+    private lazy var secondPlayerProgressView: UIProgressView = {
+        let element = UIProgressView()
+        element.progress = 0
+        element.progressTintColor = UIColor(resource: .brownBase)
+        element.trackTintColor = UIColor(resource: .blueLight)
+        element.clipsToBounds = true
+        element.transform = CGAffineTransform(rotationAngle: .pi / 2)
+        
+        element.translatesAutoresizingMaskIntoConstraints = false
+        return element
+    }()
+    
+    
+    
     
     
     //MARK: - buttons
@@ -112,7 +127,7 @@ final class GameViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.fightLoadView.removeFromSuperview()
-            self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: nil)
+            self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: #selector(self.togglePause))
             self.updateUI(state: .start)
         }
     }
@@ -122,7 +137,6 @@ final class GameViewController: UIViewController {
         
         playersResultScale.backgroundColor = .blueLight
         timeScale.backgroundColor = .blueLight
-        //        playersResultScale.backgroundColor = .blueLight
         scaleMiddleLine.backgroundColor = .white
         timeProgressScaleView.progress = 0.0
         secondPassed = 0
@@ -188,8 +202,10 @@ final class GameViewController: UIViewController {
         
         if gameState == .win {
             userScore += 1
+            firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
         } else if gameState == .lose {
             computerScore += 1
+            secondPlayerProgressView.progress = Float(userScore) / Float(totalScore)
         }
         
         //update progress view counter
@@ -203,21 +219,15 @@ final class GameViewController: UIViewController {
         print(computerSign, computerScore)
     }
     
-    
     private func goToWinResultsVC() {
         let resultsVC = FightResultsViewController()
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
-    
     private func goToLoseResultsVC() {
         let resultsVC = FightLooseResultsViewController()
         navigationController?.pushViewController(resultsVC, animated: true)
     }
-    
-    
-    
-    
     
     //MARK: - actions
     
@@ -253,6 +263,31 @@ final class GameViewController: UIViewController {
         navigationController?.pushViewController(mainVC, animated: true)
     }
     
+    // pause Game
+    @objc private func togglePause() {
+         if isGamePaused {
+             resumeGame()
+         } else {
+             pauseGame()
+         }
+     }
+    
+    private func resumeGame() {
+        isGamePaused = false
+        createTimer()
+        rockButton.isEnabled = true
+        paperButton.isEnabled = true
+        scissorsButton.isEnabled = true
+    }
+    
+    private func pauseGame() {
+        isGamePaused = true
+        timer.invalidate()
+        rockButton.isEnabled = false
+        paperButton.isEnabled = false
+        scissorsButton.isEnabled = false
+    }
+    
     
     //MARK: - UI Setup
     private func setupUI() {
@@ -264,7 +299,8 @@ final class GameViewController: UIViewController {
         view.addSubview(timeProgressScaleView)
         
         view.addSubview(timeLabel)
-        view.addSubview(playersResultProgressView)
+        view.addSubview(firstPlayerProgressView)
+        view.addSubview(secondPlayerProgressView)
         view.addSubview(scaleMiddleLine)
         view.addSubview(firstPlayerScaleImage)
         view.addSubview(secondPlayerScaleImage)
@@ -291,7 +327,6 @@ final class GameViewController: UIViewController {
         paperButton.translatesAutoresizingMaskIntoConstraints = false
         scissorsButton.translatesAutoresizingMaskIntoConstraints = false
     }
-    
     
     private func setupConstain() {
         NSLayoutConstraint.activate([
@@ -331,7 +366,6 @@ final class GameViewController: UIViewController {
             secondPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
             
-            
             rockBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             rockBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
             rockBtnBackground.widthAnchor.constraint(equalToConstant: 80),
@@ -340,12 +374,10 @@ final class GameViewController: UIViewController {
             rockButton.centerXAnchor.constraint(equalTo: rockBtnBackground.centerXAnchor),
             rockButton.centerYAnchor.constraint(equalTo: rockBtnBackground.centerYAnchor),
             
-            
             paperBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
             paperBtnBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             paperBtnBackground.widthAnchor.constraint(equalToConstant: 80),
             paperBtnBackground.heightAnchor.constraint(equalToConstant: 80),
-            
             
             paperButton.centerXAnchor.constraint(equalTo: paperBtnBackground.centerXAnchor),
             paperButton.centerYAnchor.constraint(equalTo: paperBtnBackground.centerYAnchor),
@@ -357,18 +389,16 @@ final class GameViewController: UIViewController {
             
             scissorsButton.centerXAnchor.constraint(equalTo: scissorsBtnBackground.centerXAnchor),
             scissorsButton.centerYAnchor.constraint(equalTo: scissorsBtnBackground.centerYAnchor),
-            //
-            //                progressCounter.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 130),
-            //                progressCounter.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //                //            progressCounter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            //                progressCounter.widthAnchor.constraint(equalToConstant: 260),
-            //                progressCounter.heightAnchor.constraint(equalToConstant: 10),
             
+            firstPlayerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            firstPlayerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 74),
+            firstPlayerProgressView.widthAnchor.constraint(equalToConstant: 150),
+            firstPlayerProgressView.heightAnchor.constraint(equalToConstant: 10),
             
-            playersResultProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
-            playersResultProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            playersResultProgressView.widthAnchor.constraint(equalToConstant: 310),
-            playersResultProgressView.heightAnchor.constraint(equalToConstant: 10),
+            secondPlayerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            secondPlayerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -74),
+            secondPlayerProgressView.widthAnchor.constraint(equalToConstant: 150),
+            secondPlayerProgressView.heightAnchor.constraint(equalToConstant: 10),
             
             fightLoadView.topAnchor.constraint(equalTo: view.topAnchor),
             fightLoadView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -376,7 +406,6 @@ final class GameViewController: UIViewController {
             fightLoadView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
     
     //MARK: - TimeScaleUI
     
@@ -407,10 +436,10 @@ final class GameViewController: UIViewController {
             let percentageProgress = Float(secondPassed) / Float(totalTime)
             
             timeProgressScaleView.progress = percentageProgress
-            timeLabel.text = "00:\(secondPassed/10)\(secondPassed%10)"
+            timeLabel.text = "\(secondPassed/10)\(secondPassed%10)"
             
-            print(secondPassed)
-            print(percentageProgress)
+//            print(secondPassed)
+//            print(percentageProgress)
         } else {
             timer.invalidate()
             
