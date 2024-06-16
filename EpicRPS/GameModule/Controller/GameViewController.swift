@@ -16,7 +16,7 @@ final class GameViewController: UIViewController {
     lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
     lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
     
-    // MARK: - UI Components
+    // MARK: - UI Components?
     private let gameBackgroundImageView = RPSImageView(image: .gameBackground)
     private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
     private var baseFameleHand = RPSImageView(image: .baseFemaleHand)
@@ -52,6 +52,7 @@ final class GameViewController: UIViewController {
     
     private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
     
+    //MARK: - progress view refactor
     private lazy var firstPlayerProgressView: UIProgressView = {
         let element = UIProgressView()
         element.progress = 0
@@ -80,7 +81,7 @@ final class GameViewController: UIViewController {
     
     
     
-    //MARK: - buttons
+    //MARK: - buttons background - refactor
     
     private let rockBtnBackground: UIView = {
         let view = UIView()
@@ -132,6 +133,7 @@ final class GameViewController: UIViewController {
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -142,15 +144,16 @@ final class GameViewController: UIViewController {
         secondPassed = 0
         
         setupUI()
-        
         setupConstain()
         setupButtons()
         createTimeProgress(timeProgressScaleView)
-        createTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.createTimer()
+        }
     }
     
     
-    //MARK: - game logic
+    //MARK: - game logic refactor?
     
     private func updateUI(state: GameState) {
         switch state {
@@ -205,7 +208,7 @@ final class GameViewController: UIViewController {
             firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
         } else if gameState == .lose {
             computerScore += 1
-            secondPlayerProgressView.progress = Float(userScore) / Float(totalScore)
+            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
         }
         
         //update progress view counter
@@ -232,16 +235,11 @@ final class GameViewController: UIViewController {
     //MARK: - actions
     
     @objc private func rockButtonTapped() {
-        rockButton.tintColor = .yellowLighter
-        rockBtnBackground.backgroundColor = .blueDarker
-        rockBtnBackground.addTopInnerShadow()
-        
         play(sign: .rock)
     }
     
     
     @objc private func paperButtonTapped() {
-        paperBtnBackground.addTopInnerShadow()
         play(sign: .paper)
     }
     
@@ -275,6 +273,7 @@ final class GameViewController: UIViewController {
     private func resumeGame() {
         isGamePaused = false
         createTimer()
+        fightLabel.text = "FIGHT"
         rockButton.isEnabled = true
         paperButton.isEnabled = true
         scissorsButton.isEnabled = true
@@ -283,6 +282,7 @@ final class GameViewController: UIViewController {
     private func pauseGame() {
         isGamePaused = true
         timer.invalidate()
+        fightLabel.text = "PAUSE"
         rockButton.isEnabled = false
         paperButton.isEnabled = false
         scissorsButton.isEnabled = false
@@ -416,6 +416,10 @@ final class GameViewController: UIViewController {
         progressView.progressTintColor = .greenLighter
         progressView.trackTintColor = .blueLight
         progressView.progressViewStyle = .bar
+        progressView.layer.cornerRadius = 5
+        progressView.layer.sublayers?[1].cornerRadius = 5
+        progressView.subviews[1].clipsToBounds = true
+        progressView.layer.masksToBounds = true
         progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -35).isActive = true
         progressView.widthAnchor.constraint(equalToConstant: 166).isActive = true
@@ -424,9 +428,9 @@ final class GameViewController: UIViewController {
     
     //MARK: - Time
     func createTimer() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimerScale), userInfo: nil, repeats: true)
-        }
+//        }
     }
     
     @objc func updateTimerScale() {
