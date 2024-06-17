@@ -7,6 +7,8 @@
 
 import UIKit
 
+fileprivate let shadowLayer = CAShapeLayer()
+
 extension UIView {
     func addSubviews(_ subviews: UIView...) {
             for view in subviews {
@@ -23,12 +25,11 @@ extension UIView {
     
     
     func addTopInnerShadow() {
-        let shadowLayer = CAShapeLayer()
         shadowLayer.frame = bounds
         shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowOpacity = 0.5
-        shadowLayer.shadowRadius = 3
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 4)
+        shadowLayer.shadowOpacity = 0.6
+        shadowLayer.shadowRadius = 4
         shadowLayer.fillRule = .evenOdd
         clipsToBounds = true
         
@@ -38,8 +39,12 @@ extension UIView {
         
         path.append(innerPath)
         shadowLayer.path = path.cgPath
-        
         layer.addSublayer(shadowLayer)
+    }
+    
+    
+    func removeShadow() {
+        shadowLayer.removeFromSuperlayer()
     }
 }
 
