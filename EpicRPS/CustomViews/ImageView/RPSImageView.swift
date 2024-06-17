@@ -18,9 +18,10 @@ final class RPSImageView: UIImageView {
     }
     
     
-    convenience init(image: UIImage = .dcWrestler) {
+    convenience init(image: UIImage = .dcWrestler, content: UIView.ContentMode = .scaleAspectFit) {
         self.init(frame: .zero)
         self.image = image
+        contentMode = content
     }
     
     

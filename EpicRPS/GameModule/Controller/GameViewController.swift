@@ -9,109 +9,66 @@ import UIKit
 
 final class GameViewController: UIViewController {
     
+    // MARK: - UI
+    
+    //Preload View
+    private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
+    
+    private let gameBackgroundImageView = UIImageView(image: .gameBackground)
+    private let fightLabel = UILabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
+    
+    //Hands
+    private var baseFemaleHand = UIImageView(image: .baseFemaleHand)
+    private var baseMaleHand = UIImageView(image: .baseMaleHand)
+    
+    //Player Images
+    private let firstPlayerScaleImage = UIImageView(image: .alien)
+    private let secondPlayerScaleImage = UIImageView(image: .wrestler)
+    
+    //Buttons
+    private lazy var rockButton = RPSSignButtonView(image: .rockBtn)
+    private lazy var paperButton = RPSSignButtonView(image: .paperBtn)
+    private lazy var scissorsButton = RPSSignButtonView(image: .scissorsBtn)
+    
+    //ProgressViews
+    private var timeProgressScaleView: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.setProgress(0.0, animated: false)
+        progressView.progress = 0.0
+        progressView.transform = CGAffineTransform(rotationAngle:  -.pi / 2)
+        progressView.progressTintColor = .greenLighter
+        progressView.trackTintColor = .blueLight
+        progressView.progressViewStyle = .bar
+        progressView.layer.cornerRadius = 5
+        progressView.layer.sublayers?[1].cornerRadius = 5
+        progressView.subviews[1].clipsToBounds = true
+        progressView.layer.masksToBounds = true
+        return progressView
+    }()
+    
+    private var timeLabel = UILabel(text: "0",fontSize: 12, color: .white)
+    private lazy var firstPlayerProgressView = UIProgressView(progressColor: .greenLighter, trackColor: .blueLight, rotationAngle: .pi / -2)
+    private let scaleMiddleLine = UIImageView(bgColor: .white)
+    private lazy var secondPlayerProgressView = UIProgressView(progressColor: .brownBase, trackColor: .blueLight, rotationAngle: .pi / 2)
+    
+    
     //MARK: - Properties
+    
     private var isGamePaused = false
     private var totalScore = 3
+    
+    private var timer = Timer()
+    private var secondPassed = 0
+    private var totalTime = 30
+    
+    var userScore = 0
+    var computerScore = 0
     
     lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
     lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
     
-    // MARK: - UI Components?
-    private let gameBackgroundImageView = RPSImageView(image: .gameBackground)
-    private let fightLabel = RPSTitleLabel(text: "FIGHT",fontSize: 56, color: .yellowDarker)
-    private var baseFameleHand = RPSImageView(image: .baseFemaleHand)
-    private var baseMaleHand = RPSImageView(image: .baseMaleHand)
-    private var timeProgressScaleView = UIProgressView()
-    private var timer = Timer()
-    private var secondPassed = 0
-    private var totalTime = 30
-    private let playersResultScale = RPSImageView(frame: .zero)
-    private var timeScale = RPSImageView(frame: .zero)
-    private var timeLabel = RPSTitleLabel(text: "0",fontSize: 12, color: .white)
-    private let scaleMiddleLine = RPSImageView(frame: .zero)
-    private let firstPlayerScaleImage = RPSImageView(image: .alien)
-    private let secondPlayerScaleImage = RPSImageView(image: .wrestler)
-    private var rockButton : UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(.rockBtn.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    private var paperButton : UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(.paperBtn.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    private var scissorsButton : UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(.scissorsBtn.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    
-    private lazy var fightLoadView = FightLoadView(user: user, computer: computer)
-    
-    //MARK: - progress view refactor
-    private lazy var firstPlayerProgressView: UIProgressView = {
-        let element = UIProgressView()
-        element.progress = 0
-        element.progressTintColor = UIColor(resource: .greenLighter)
-        element.trackTintColor = UIColor(resource: .blueLight)
-        element.clipsToBounds = true
-        element.transform = CGAffineTransform(rotationAngle: .pi / -2)
-        
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
-    }()
-    
-    private lazy var secondPlayerProgressView: UIProgressView = {
-        let element = UIProgressView()
-        element.progress = 0
-        element.progressTintColor = UIColor(resource: .brownBase)
-        element.trackTintColor = UIColor(resource: .blueLight)
-        element.clipsToBounds = true
-        element.transform = CGAffineTransform(rotationAngle: .pi / 2)
-        
-        element.translatesAutoresizingMaskIntoConstraints = false
-        return element
-    }()
-    
-    //MARK: - buttons
-    
-    
-    
-    
-    //MARK: - buttons background - refactor
-    
-    private let rockBtnBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blueBase
-        view.alpha = 0.75
-        view.layer.cornerRadius = 40
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    
-    private let paperBtnBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blueBase
-        view.alpha = 0.75
-        view.layer.cornerRadius = 40
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    
-    private let scissorsBtnBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blueBase
-        view.alpha = 0.75
-        view.layer.cornerRadius = 40
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    weak var delegate: RPSSignButtonProtocol?
     
     
     // MARK: - Lifecycle
@@ -138,25 +95,77 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playersResultScale.backgroundColor = .blueLight
-        timeScale.backgroundColor = .blueLight
-        scaleMiddleLine.backgroundColor = .white
-        timeProgressScaleView.progress = 0.0
-        secondPassed = 0
-        
         setupUI()
-        setupConstain()
-        setupButtons()
-        createTimeProgress(timeProgressScaleView)
+        setDelegates()
+        setupConstraints()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.createTimer()
         }
     }
+}
+
+
+//MARK: - RPSSignButtonProtocol
+
+extension GameViewController: RPSSignButtonProtocol {
     
+    //MARK: - So shit solution
+    // change color state change button to private
+    func buttonDidTapped() {
+        if rockButton.button.isTouchInside {
+            rockButton.button.tintColor = .yellowLighter
+            rockButton.backgroundColor = .blueDarker
+            
+            paperButton.button.tintColor = .white
+            paperButton.backgroundColor = .blueBase
+            scissorsButton.button.tintColor = .white
+            scissorsButton.backgroundColor = .blueBase
+            play(sign: .rock)
+        } else if paperButton.button.isTouchInside {
+            paperButton.button.tintColor = .yellowLighter
+            paperButton.backgroundColor = .blueDarker
+            
+            rockButton.button.tintColor = .white
+            rockButton.backgroundColor = .blueBase
+            scissorsButton.button.tintColor = .white
+            scissorsButton.backgroundColor = .blueBase
+            play(sign: .paper)
+        } else {
+            play(sign: .scissors)
+            scissorsButton.button.tintColor = .yellowLighter
+            scissorsButton.backgroundColor = .blueDarker
+            
+            rockButton.button.tintColor = .white
+            rockButton.backgroundColor = .blueBase
+            paperButton.button.tintColor = .white
+            paperButton.backgroundColor = .blueBase
+        }
+    }
     
-    //MARK: - game logic refactor?
+    //Do not work
+    //    func buttonDidTapped() {
+    //        if rockButton.isActive {
+    //
+    //            play(sign: .rock)
+    //            rockButton.isActive = false
+    //        } else if paperButton.isActive == true {
+    //            play(sign: .paper)
+    //            rockButton.isActive = false
+    //        } else if scissorsButton.isActive == true {
+    //            play(sign: .scissors)
+    //            rockButton.isActive = false
+    //        }
+    //    }
+}
+
+
+//MARK: - Internal Methods
+
+private extension GameViewController {
     
-    private func updateUI(state: GameState) {
+    //MARK: - Update UI Logic
+    
+    func updateUI(state: GameState) {
         switch state {
         case .start:
             fightLabel.text = "FIGHT"
@@ -170,7 +179,7 @@ final class GameViewController: UIViewController {
     }
     
     
-    private func updatePlayerUI(sign: RPSSign) {
+    func updatePlayerUI(sign: RPSSign) {
         switch sign {
         case .rock:
             baseMaleHand.image = .rockMaleHand
@@ -182,21 +191,21 @@ final class GameViewController: UIViewController {
     }
     
     
-    private func updateComputerUI(sign: RPSSign) {
+    func updateComputerUI(sign: RPSSign) {
         switch sign {
         case .rock:
-            baseFameleHand.image = .rockFemaleHand
+            baseFemaleHand.image = .rockFemaleHand
         case .paper:
-            baseFameleHand.image = .paperFemaleHand
+            baseFemaleHand.image = .paperFemaleHand
         case .scissors:
-            baseFameleHand.image = .scissorsFemaleHand
+            baseFemaleHand.image = .scissorsFemaleHand
         }
     }
     
-    var userScore = 0
-    var computerScore = 0
     
-    private func play(sign: RPSSign) {
+    //MARK: - Play Logic
+    
+    func play(sign: RPSSign) {
         let computerSign = RPSSign.randomSign()
         let gameState = sign.getGameState(computerSign: computerSign)
         
@@ -223,113 +232,118 @@ final class GameViewController: UIViewController {
         print(computerSign, computerScore)
     }
     
-    private func goToWinResultsVC() {
+    
+    //MARK: - Timer
+    
+    func createTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerScale), userInfo: nil, repeats: true)
+    }
+    
+    
+    @objc func updateTimerScale() {
+        if secondPassed < totalTime {
+            secondPassed += 1
+            
+            let percentageProgress = Float(secondPassed) / Float(totalTime)
+            
+            timeProgressScaleView.progress = percentageProgress
+            timeLabel.text = "\(secondPassed/10)\(secondPassed%10)"
+            
+        } else if totalTime == 30 {
+            timer.invalidate()
+            timeLabel.text = "\(0)"
+            computerScore += 1
+            timeProgressScaleView.progress = 0
+            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+        } else {
+            timer.invalidate()
+        }
+    }
+    
+    
+    //MARK: - Pause Logic
+    
+    @objc  func togglePause() {
+        if isGamePaused {
+            resumeGame()
+        } else {
+            pauseGame()
+        }
+    }
+    
+    func resumeGame() {
+        isGamePaused = false
+        createTimer()
+        fightLabel.text = "FIGHT"
+        rockButton.button.isEnabled = true
+        paperButton.button.isEnabled = true
+        scissorsButton.button.isEnabled = true
+    }
+    
+    func pauseGame() {
+        isGamePaused = true
+        timer.invalidate()
+        fightLabel.text = "PAUSE"
+        rockButton.button.isEnabled = false
+        paperButton.button.isEnabled = false
+        scissorsButton.button.isEnabled = false
+    }
+    
+    
+    //MARK: - Navigation
+    
+    func goToWinResultsVC() {
         let resultsVC = FightResultsViewController()
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
-    private func goToLoseResultsVC() {
+    func goToLoseResultsVC() {
         let resultsVC = FightLooseResultsViewController()
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
-    //MARK: - actions
     
-    @objc private func rockButtonTapped() {
-        play(sign: .rock)
-    }
-    
-    
-    @objc private func paperButtonTapped() {
-        play(sign: .paper)
-    }
-    
-    
-    @objc private func scissorsButtonTapped() {
-        play(sign: .scissors)
-    }
-    
-    
-    private func setupButtons() {
-        rockButton.addTarget(self, action: #selector(rockButtonTapped), for: .touchUpInside)
-        paperButton.addTarget(self, action: #selector(paperButtonTapped), for: .touchUpInside)
-        scissorsButton.addTarget(self, action: #selector(scissorsButtonTapped), for: .touchUpInside)
-    }
-    
-    
-    @objc private func backToMainVC() {
+    @objc  func backToMainVC() {
         let mainVC = MainViewController()
         navigationController?.pushViewController(mainVC, animated: true)
     }
     
-    // pause Game
-    @objc private func togglePause() {
-         if isGamePaused {
-             resumeGame()
-         } else {
-             pauseGame()
-         }
-     }
     
-    private func resumeGame() {
-        isGamePaused = false
-        createTimer()
-        fightLabel.text = "FIGHT"
-        rockButton.isEnabled = true
-        paperButton.isEnabled = true
-        scissorsButton.isEnabled = true
-    }
+    //MARK: - Setup UI
     
-    private func pauseGame() {
-        isGamePaused = true
-        timer.invalidate()
-        fightLabel.text = "PAUSE"
-        rockButton.isEnabled = false
-        paperButton.isEnabled = false
-        scissorsButton.isEnabled = false
-    }
-    
-    
-    //MARK: - UI Setup
-    private func setupUI() {
-        
+    func setupUI() {
         view.addSubview(gameBackgroundImageView)
         view.addSubview(fightLabel)
-        view.addSubview(baseFameleHand)
+        view.addSubview(baseFemaleHand)
         view.addSubview(baseMaleHand)
         view.addSubview(timeProgressScaleView)
-        
         view.addSubview(timeLabel)
         view.addSubview(firstPlayerProgressView)
         view.addSubview(secondPlayerProgressView)
         view.addSubview(scaleMiddleLine)
         view.addSubview(firstPlayerScaleImage)
         view.addSubview(secondPlayerScaleImage)
-        view.addSubview(rockBtnBackground)
-        rockBtnBackground.addSubview(rockButton)
-        view.addSubview(paperBtnBackground)
-        paperBtnBackground.addSubview(paperButton)
-        view.addSubview(scissorsBtnBackground)
-        scissorsBtnBackground.addSubview(scissorsButton)
+        view.addSubview(rockButton)
+        view.addSubview(paperButton)
+        view.addSubview(scissorsButton)
         view.addSubview(fightLoadView)
         
         fightLoadView.configureView(with: user, and: computer)
-        
-        gameBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        fightLabel.translatesAutoresizingMaskIntoConstraints = false
-        baseFameleHand.translatesAutoresizingMaskIntoConstraints = false
-        baseMaleHand.translatesAutoresizingMaskIntoConstraints = false
-        
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        scaleMiddleLine.translatesAutoresizingMaskIntoConstraints = false
-        firstPlayerScaleImage.translatesAutoresizingMaskIntoConstraints = false
-        secondPlayerScaleImage.translatesAutoresizingMaskIntoConstraints = false
-        rockButton.translatesAutoresizingMaskIntoConstraints = false
-        paperButton.translatesAutoresizingMaskIntoConstraints = false
-        scissorsButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func setupConstain() {
+    
+    //MARK: - Set Delegates
+    
+    func setDelegates() {
+        rockButton.delegate = self
+        paperButton.delegate = self
+        scissorsButton.delegate = self
+    }
+    
+    
+    //MARK: - Constraints
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             gameBackgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
             gameBackgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -339,10 +353,10 @@ final class GameViewController: UIViewController {
             fightLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             fightLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            baseFameleHand.bottomAnchor.constraint(equalTo: fightLabel.topAnchor,constant: -40),
-            baseFameleHand.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 90),
-            baseFameleHand.widthAnchor.constraint(equalToConstant: 147),
-            baseFameleHand.heightAnchor.constraint(equalToConstant: 423),
+            baseFemaleHand.bottomAnchor.constraint(equalTo: fightLabel.topAnchor,constant: -40),
+            baseFemaleHand.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 90),
+            baseFemaleHand.widthAnchor.constraint(equalToConstant: 147),
+            baseFemaleHand.heightAnchor.constraint(equalToConstant: 423),
             
             baseMaleHand.topAnchor.constraint(equalTo: fightLabel.bottomAnchor,constant: 40),
             baseMaleHand.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 142),
@@ -367,29 +381,25 @@ final class GameViewController: UIViewController {
             secondPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
             
-            rockBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
-            rockBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
-            rockBtnBackground.widthAnchor.constraint(equalToConstant: 80),
-            rockBtnBackground.heightAnchor.constraint(equalToConstant: 80),
+            rockButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
+            rockButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
+            rockButton.widthAnchor.constraint(equalToConstant: 80),
+            rockButton.heightAnchor.constraint(equalToConstant: 80),
             
-            rockButton.centerXAnchor.constraint(equalTo: rockBtnBackground.centerXAnchor),
-            rockButton.centerYAnchor.constraint(equalTo: rockBtnBackground.centerYAnchor),
+            paperButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
+            paperButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            paperButton.widthAnchor.constraint(equalToConstant: 80),
+            paperButton.heightAnchor.constraint(equalToConstant: 80),
             
-            paperBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 652),
-            paperBtnBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            paperBtnBackground.widthAnchor.constraint(equalToConstant: 80),
-            paperBtnBackground.heightAnchor.constraint(equalToConstant: 80),
+            scissorsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
+            scissorsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
+            scissorsButton.widthAnchor.constraint(equalToConstant: 80),
+            scissorsButton.heightAnchor.constraint(equalToConstant: 80),
             
-            paperButton.centerXAnchor.constraint(equalTo: paperBtnBackground.centerXAnchor),
-            paperButton.centerYAnchor.constraint(equalTo: paperBtnBackground.centerYAnchor),
-            
-            scissorsBtnBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
-            scissorsBtnBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 249),
-            scissorsBtnBackground.widthAnchor.constraint(equalToConstant: 80),
-            scissorsBtnBackground.heightAnchor.constraint(equalToConstant: 80),
-            
-            scissorsButton.centerXAnchor.constraint(equalTo: scissorsBtnBackground.centerXAnchor),
-            scissorsButton.centerYAnchor.constraint(equalTo: scissorsBtnBackground.centerYAnchor),
+            timeProgressScaleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            timeProgressScaleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -35),
+            timeProgressScaleView.widthAnchor.constraint(equalToConstant: 166),
+            timeProgressScaleView.heightAnchor.constraint(equalToConstant: 10),
             
             firstPlayerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
             firstPlayerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 74),
@@ -407,55 +417,4 @@ final class GameViewController: UIViewController {
             fightLoadView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    //MARK: - TimeScaleUI
-    
-    func createTimeProgress(_ progressView: UIProgressView){
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.setProgress(0.0, animated: false)
-        progressView.transform = CGAffineTransform(rotationAngle:  -.pi / 2)
-        progressView.progressTintColor = .greenLighter
-        progressView.trackTintColor = .blueLight
-        progressView.progressViewStyle = .bar
-        progressView.layer.cornerRadius = 5
-        progressView.layer.sublayers?[1].cornerRadius = 5
-        progressView.subviews[1].clipsToBounds = true
-        progressView.layer.masksToBounds = true
-        progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -35).isActive = true
-        progressView.widthAnchor.constraint(equalToConstant: 166).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-    }
-    
-    //MARK: - Time
-    func createTimer() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimerScale), userInfo: nil, repeats: true)
-//        }
-    }
-    
-    @objc func updateTimerScale() {
-        if secondPassed < totalTime {
-            secondPassed += 1
-            
-            let percentageProgress = Float(secondPassed) / Float(totalTime)
-            
-            timeProgressScaleView.progress = percentageProgress
-            timeLabel.text = "\(secondPassed/10)\(secondPassed%10)"
-            
-//            print(secondPassed)
-//            print(percentageProgress)
-        } else if totalTime == 30 {
-            timer.invalidate()
-            timeLabel.text = "\(0)"
-            computerScore += 1
-            timeProgressScaleView.progress = 0
-            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
-            print(computerScore)
-        } else {
-            timer.invalidate()
-        }
-        
-    }
-    
 }

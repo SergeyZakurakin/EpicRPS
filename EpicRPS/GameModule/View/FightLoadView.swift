@@ -17,13 +17,13 @@ final class FightLoadView: UIView {
     
     //MARK: - UI
     
-    private let backgroundImageView = RPSImageView(image: .blueBackground)
+    private let backgroundImageView = UIImageView(image: .blueBackground)
     
     private lazy var userInfoView = RPSPlayerInfoView(player: user)
     private lazy var computerInfoView = RPSPlayerInfoView(player: computer)
     
-    private let announcementLabel = RPSTitleLabel(text: "VS",fontSize: 56, color: .yellowDarker)
-    private let readinessLabel = RPSTitleLabel(text: "Get ready...", color: .yellowDarker)
+    private let announcementLabel = UILabel(text: "VS", fontSize: 56, color: .yellowDarker)
+    private let readinessLabel = UILabel(text: "Get ready...", color: .yellowDarker)
     
     private var stackView = UIStackView()
     
@@ -58,10 +58,7 @@ extension FightLoadView {
 
 private extension FightLoadView {
     func configure() {
-        let views = [backgroundImageView,
-                     stackView,
-                     readinessLabel]
-        views.forEach { addSubview($0) }
+        addSubviews(backgroundImageView, stackView, readinessLabel)
         
         configureStackViews()
         setConstraints()
@@ -71,9 +68,7 @@ private extension FightLoadView {
     
     
     func configureStackViews() {
-        stackView.addArrangedSubview(computerInfoView)
-        stackView.addArrangedSubview(announcementLabel)
-        stackView.addArrangedSubview(userInfoView)
+        stackView.addArrangedSubviews(computerInfoView, announcementLabel, userInfoView)
         
         stackView.axis = .vertical
         stackView.spacing = 60

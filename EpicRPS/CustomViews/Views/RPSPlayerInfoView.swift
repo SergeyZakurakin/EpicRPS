@@ -11,7 +11,8 @@ final class RPSPlayerInfoView: UIView {
     
     //MARK: - UI
     
-    private let characterImage = RPSImageView()
+    //Bug with UIImageView but not with RPSImageView but they are the same
+    private let characterImage = RPSImageView(frame: .zero)
     private let statisticLabel: UILabel = {
        let lbl = UILabel()
         lbl.font = Font.getFont(.rubickBold, size: 19)
@@ -49,8 +50,7 @@ final class RPSPlayerInfoView: UIView {
 private extension RPSPlayerInfoView {
     func configure() {
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(characterImage)
-        addSubview(statisticLabel)
+        addSubviews(characterImage, statisticLabel)
     }
     
     
