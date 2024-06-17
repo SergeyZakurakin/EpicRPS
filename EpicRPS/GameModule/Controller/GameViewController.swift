@@ -274,30 +274,22 @@ private extension GameViewController {
     //MARK: - Setup UI
     
     func setupUI() {
-        view.addSubview(gameBackgroundImageView)
-        view.addSubview(fightLabel)
-        view.addSubview(baseFemaleHand)
-        view.addSubview(baseMaleHand)
-        view.addSubview(timeProgressScaleView)
-        view.addSubview(timeLabel)
-        view.addSubview(firstPlayerProgressView)
-        view.addSubview(secondPlayerProgressView)
-        view.addSubview(scaleMiddleLine)
-        view.addSubview(firstPlayerScaleImage)
-        view.addSubview(secondPlayerScaleImage)
-        view.addSubview(rockButton)
-        view.addSubview(paperButton)
-        view.addSubview(scissorsButton)
-        view.addSubview(fightLoadView)
+        view.addSubviews(gameBackgroundImageView, fightLabel,
+                         baseFemaleHand, baseMaleHand,
+                         timeProgressScaleView, timeLabel,
+                         firstPlayerProgressView, secondPlayerProgressView,
+                         scaleMiddleLine, firstPlayerScaleImage, secondPlayerScaleImage,
+                         rockButton, paperButton, scissorsButton,
+                         fightLoadView)
         
         fightLoadView.configureView(with: user, and: computer)
     }
     
     
     func setupButtons() {
-        rockButton.tag = RPSButton.rock.rawValue
-        paperButton.tag = RPSButton.paper.rawValue
-        scissorsButton.tag = RPSButton.scissors.rawValue
+        rockButton.tag = RPSSign.rock.rawValue
+        paperButton.tag = RPSSign.paper.rawValue
+        scissorsButton.tag = RPSSign.scissors.rawValue
 
         rockButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
         paperButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
