@@ -45,6 +45,8 @@ private extension RPSSignButton {
                 self.backgroundColor = .blueDarker
                 self.tintColor = .yellowLighter
                 self.addTopInnerShadow()
+            case .disabled:
+                self.backgroundColor = .blueLight
             default:
                 self.backgroundColor = .blueBase
                 self.tintColor = .white

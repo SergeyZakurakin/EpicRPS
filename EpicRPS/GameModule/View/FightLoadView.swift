@@ -44,16 +44,6 @@ final class FightLoadView: UIView {
 }
 
 
-//MARK: - External methods
-
-extension FightLoadView {
-    func configureView(with user: Player, and computer: Player) {
-        computerInfoView = RPSPlayerInfoView(player: computer)
-        userInfoView = RPSPlayerInfoView(player: user)
-    }
-}
-
-
 //MARK: - Internal Methods
 
 private extension FightLoadView {
@@ -62,7 +52,6 @@ private extension FightLoadView {
         
         configureStackViews()
         setConstraints()
-        configureView(with: user, and: computer)
         translatesAutoresizingMaskIntoConstraints = false
     }
     

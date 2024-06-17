@@ -34,7 +34,7 @@ final class GameViewController: UIViewController {
     private var timeProgressScaleView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.setProgress(0.0, animated: false)
+        progressView.setProgress(0.0, animated: true)
         progressView.progress = 0.0
         progressView.transform = CGAffineTransform(rotationAngle:  -.pi / 2)
         progressView.progressTintColor = .greenLighter
@@ -47,7 +47,7 @@ final class GameViewController: UIViewController {
         return progressView
     }()
     
-    private var timeLabel = UILabel(text: "0",fontSize: 12, color: .white)
+    private var timeLabel = UILabel(text: "0:00",fontSize: 12, color: .white)
     
     //ProgressView Players Counter
     private lazy var firstPlayerProgressView = UIProgressView(progressColor: .greenLighter, trackColor: .blueLight, rotationAngle: .pi / -2)
@@ -84,7 +84,8 @@ final class GameViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            guard let self = self else { return }
             self.fightLoadView.removeFromSuperview()
             self.setupNavBar(on: self, title: "Game", leftImage: .back, leftSelector: #selector(self.backToMainVC), rightImage: .pause, rightSelector: #selector(self.togglePause))
             self.updateUI(state: .start)
@@ -98,8 +99,8 @@ final class GameViewController: UIViewController {
         setupUI()
         setupButtons()
         setupConstraints()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.createTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.createTimer()
         }
     }
 }
@@ -165,6 +166,75 @@ private extension GameViewController {
     }
     
     
+    func resetGameField() {
+        toggleIsEnabledButtons()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) { [weak self] in
+            guard let self = self else { return }
+            self.fightLabel.text = "FIGHT"
+            self.baseMaleHand.image = .baseMaleHand
+            self.baseFemaleHand.image = .baseFemaleHand
+            toggleIsEnabledButtons()
+        }
+    }
+    
+    
+    func toggleIsEnabledButtons() {
+        rockButton.isEnabled.toggle()
+        paperButton.isEnabled.toggle()
+        scissorsButton.isEnabled.toggle()
+    }
+    
+    
+    //MARK: - Timer
+    
+    func createTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerScale), userInfo: nil, repeats: true)
+    }
+
+    
+    @objc func updateTimerScale() {
+        updateTimer()
+    }
+    
+
+    func increaseTimerProgress() {
+        let percentageProgress = Float(secondPassed) / Float(totalTime)
+        timeProgressScaleView.progress = percentageProgress
+        timeLabel.text = "0:\(secondPassed/10)\(secondPassed%10)"
+    }
+
+    
+    func updateTimer() {
+        if secondPassed + 1 <= totalTime {
+            secondPassed += 1
+            increaseTimerProgress()
+        } else if totalTime == 30 {
+            computerScore += 1
+            fightLabel.text = "LOSE"
+            resetGameField()
+            checkResults()
+            resetTimer()
+        } else {
+            timer.invalidate()
+        }
+    }
+    
+    
+    func resetTimer() {
+        timer.invalidate()
+        secondPassed = 0
+        resetTimerProgress()
+        createTimer()
+        updateTimer()
+    }
+    
+    
+    func resetTimerProgress() {
+        timeProgressScaleView.setProgress(0.15, animated: true)
+        secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+    }
+    
+    
     //MARK: - Play Logic
     
     func play(sign: RPSSign) {
@@ -178,48 +248,30 @@ private extension GameViewController {
         if gameState == .win {
             userScore += 1
             firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
+            nextStage()
         } else if gameState == .lose {
             computerScore += 1
             secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+            nextStage()
+        } else if gameState == .draw {
+            nextStage()
         }
-        
-        //update progress view counter
+    }
+    
+    
+    func checkResults() {
         if userScore == 3 {
             goToWinResultsVC()
         } else if computerScore == 3 {
             goToLoseResultsVC()
         }
-        
-        print(sign, userScore)
-        print(computerSign, computerScore)
     }
     
     
-    //MARK: - Timer
-    
-    func createTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimerScale), userInfo: nil, repeats: true)
-    }
-    
-    
-    @objc func updateTimerScale() {
-        if secondPassed < totalTime {
-            secondPassed += 1
-            
-            let percentageProgress = Float(secondPassed) / Float(totalTime)
-            
-            timeProgressScaleView.progress = percentageProgress
-            timeLabel.text = "\(secondPassed/10)\(secondPassed%10)"
-            
-        } else if totalTime == 30 {
-            timer.invalidate()
-            timeLabel.text = "\(0)"
-            computerScore += 1
-            timeProgressScaleView.progress = 0
-            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
-        } else {
-            timer.invalidate()
-        }
+    func nextStage() {
+        resetGameField()
+        resetTimer()
+        checkResults()
     }
     
     
@@ -237,18 +289,14 @@ private extension GameViewController {
         isGamePaused = false
         createTimer()
         fightLabel.text = "FIGHT"
-        rockButton.isEnabled = true
-        paperButton.isEnabled = true
-        scissorsButton.isEnabled = true
+        toggleIsEnabledButtons()
     }
     
     func pauseGame() {
         isGamePaused = true
         timer.invalidate()
         fightLabel.text = "PAUSE"
-        rockButton.isEnabled = false
-        paperButton.isEnabled = false
-        scissorsButton.isEnabled = false
+        toggleIsEnabledButtons()
     }
     
     
@@ -258,6 +306,7 @@ private extension GameViewController {
         let resultsVC = FightResultsViewController()
         navigationController?.pushViewController(resultsVC, animated: true)
     }
+    
     
     func goToLoseResultsVC() {
         let resultsVC = FightLooseResultsViewController()
@@ -282,7 +331,7 @@ private extension GameViewController {
                          rockButton, paperButton, scissorsButton,
                          fightLoadView)
         
-        fightLoadView.configureView(with: user, and: computer)
+//        fightLoadView.configureView(with: user, and: computer)
     }
     
     
