@@ -7,13 +7,6 @@
 
 import UIKit
 
-enum RPSButton: Int {
-    case rock = 1
-    case paper = 2
-    case scissors = 3
-}
-
-
 final class GameViewController: UIViewController {
     
     // MARK: - UI
@@ -33,11 +26,11 @@ final class GameViewController: UIViewController {
     private let secondPlayerScaleImage = UIImageView(image: .wrestler)
     
     //Buttons
-    private lazy var rockButton = RPSSignButton(image: .rockBtn)
-    private lazy var paperButton = RPSSignButton(image: .paperBtn)
-    private lazy var scissorsButton = RPSSignButton(image: .scissorsBtn)
+    private lazy var rockButton = RPSSignButton(with: .rockBtn)
+    private lazy var paperButton = RPSSignButton(with: .paperBtn)
+    private lazy var scissorsButton = RPSSignButton(with: .scissorsBtn)
     
-    //ProgressViews
+    //ProgressView Timer
     private var timeProgressScaleView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +48,8 @@ final class GameViewController: UIViewController {
     }()
     
     private var timeLabel = UILabel(text: "0",fontSize: 12, color: .white)
+    
+    //ProgressView Players Counter
     private lazy var firstPlayerProgressView = UIProgressView(progressColor: .greenLighter, trackColor: .blueLight, rotationAngle: .pi / -2)
     private let scaleMiddleLine = UIImageView(bgColor: .white)
     private lazy var secondPlayerProgressView = UIProgressView(progressColor: .brownBase, trackColor: .blueLight, rotationAngle: .pi / 2)
@@ -110,75 +105,14 @@ final class GameViewController: UIViewController {
 }
 
 
-//extension GameViewController {
-//    // change color state change button to private
-//    func buttonDidTapped() {
-//        if rockButton.button.isTouchInside {
-//            rockButton.button.tintColor = .yellowLighter
-//            rockButton.backgroundColor = .blueDarker
-//
-//            paperButton.button.tintColor = .white
-//            paperButton.backgroundColor = .blueBase
-//            scissorsButton.button.tintColor = .white
-//            scissorsButton.backgroundColor = .blueBase
-//            play(sign: .rock)
-//        } else if paperButton.button.isTouchInside {
-//            paperButton.button.tintColor = .yellowLighter
-//            paperButton.backgroundColor = .blueDarker
-//
-//            rockButton.button.tintColor = .white
-//            rockButton.backgroundColor = .blueBase
-//            scissorsButton.button.tintColor = .white
-//            scissorsButton.backgroundColor = .blueBase
-//            play(sign: .paper)
-//        } else {
-//            play(sign: .scissors)
-//            scissorsButton.button.tintColor = .yellowLighter
-//            scissorsButton.backgroundColor = .blueDarker
-//
-//            rockButton.button.tintColor = .white
-//            rockButton.backgroundColor = .blueBase
-//            paperButton.button.tintColor = .white
-//            paperButton.backgroundColor = .blueBase
-//        }
-//    }
-
-//Do not work
-//    func buttonDidTapped() {
-//        if rockButton.isActive {
-//
-//            play(sign: .rock)
-//            rockButton.isActive = false
-//        } else if paperButton.isActive == true {
-//            play(sign: .paper)
-//            rockButton.isActive = false
-//        } else if scissorsButton.isActive == true {
-//            play(sign: .scissors)
-//            rockButton.isActive = false
-//        }
-//    }
-//}
-
-
 //MARK: - Internal Methods
 
 private extension GameViewController {
     
-    //MARK: - Buttons
-    
-    func setupButtons() {
-        rockButton.tag = RPSButton.rock.rawValue
-        paperButton.tag = RPSButton.paper.rawValue
-        scissorsButton.tag = RPSButton.scissors.rawValue
-
-        rockButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
-        paperButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
-        scissorsButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
-    }
-    
+    //MARK: - Action
     
     @objc func buttonHandler(_ button: UIButton) {
-        switch RPSButton(rawValue: button.tag) {
+        switch RPSSign(rawValue: button.tag) {
         case .rock:
             play(sign: .rock)
         case .paper:
@@ -357,6 +291,17 @@ private extension GameViewController {
         view.addSubview(fightLoadView)
         
         fightLoadView.configureView(with: user, and: computer)
+    }
+    
+    
+    func setupButtons() {
+        rockButton.tag = RPSButton.rock.rawValue
+        paperButton.tag = RPSButton.paper.rawValue
+        scissorsButton.tag = RPSButton.scissors.rawValue
+
+        rockButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
+        paperButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
+        scissorsButton.addTarget(self, action: #selector(buttonHandler), for: .touchUpInside)
     }
     
     

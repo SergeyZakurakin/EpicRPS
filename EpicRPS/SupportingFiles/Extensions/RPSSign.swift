@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum RPSSign {
-    case rock
-    case paper
-    case scissors
+enum RPSSign: Int {
+    case rock = 1
+    case paper = 2
+    case scissors = 3
     
     
     func getGameState(computerSign: RPSSign) -> GameState {

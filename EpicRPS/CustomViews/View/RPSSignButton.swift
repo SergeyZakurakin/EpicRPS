@@ -11,11 +11,11 @@ final class RPSSignButton: UIButton {
     
     //MARK: - Lifecycle
     
-    init(image btnImage: UIImage) {
+    init(with image: UIImage) {
         super.init(frame: .zero)
         
-        setImage(btnImage.withRenderingMode(.alwaysTemplate), for: .normal)
-        configure()
+        configure(image)
+        changeState()
     }
     
     
@@ -28,11 +28,28 @@ final class RPSSignButton: UIButton {
 //MARK: - Internal Methods
 
 private extension RPSSignButton {
-    func configure() {
-        tintColor = .white
-        backgroundColor = .blueBase
+    func configure(_ image: UIImage) {
+        configuration = UIButton.Configuration.plain()
+        configuration?.image = image.withRenderingMode(.alwaysTemplate)
         alpha = 0.75
         layer.cornerRadius = 40
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    
+    func changeState() {
+        self.configurationUpdateHandler = { [weak self] button in
+            guard let self = self else { return }
+            switch button.state {
+            case .highlighted:
+                self.backgroundColor = .blueDarker
+                self.tintColor = .yellowLighter
+                self.addTopInnerShadow()
+            default:
+                self.backgroundColor = .blueBase
+                self.tintColor = .white
+                self.removeShadow()
+            }
+        }
     }
 }
