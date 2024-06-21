@@ -15,8 +15,6 @@ struct Player {
 
 
 struct PlayerScore: Codable {
-    var totalVictories: Int
-    var totalLoses: Int
     var victories: Int
     var loses: Int
 }

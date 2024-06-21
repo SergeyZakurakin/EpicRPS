@@ -110,8 +110,8 @@ final class GameViewController: UIViewController {
     }
     
     
-    var userScore = PlayerScore(totalVictories: 0, totalLoses: 0, victories: 0, loses: 0)
-    var computerScore = PlayerScore(totalVictories: 0, totalLoses: 0, victories: 0, loses: 0)
+    var userScore = PlayerScore(victories: 0, loses: 0)
+    var computerScore = PlayerScore(victories: 0, loses: 0)
 }
 
 
@@ -248,9 +248,11 @@ private extension GameViewController {
             increaseTimerProgress()
         } else if totalTime == 30 {
             computerScore.victories += 1
+            userScore.loses += 1
             fightLabel.text = "LOSE"
             resetGameField()
-            sumTotalScores()
+            saveDataToStorage()
+//            sumTotalScores()
             checkResults()
             resetTimer()
         } else {
@@ -298,11 +300,8 @@ private extension GameViewController {
             nextStage()
         }
         
-        sumTotalScores()
-        
+//        sumTotalScores()
         saveDataToStorage()
-        
-        
         
         print(userScore)
         print(computerScore)
@@ -363,13 +362,13 @@ private extension GameViewController {
     //MARK: - Navigation
     
     func goToWinResultsVC() {
-        let resultsVC = FightResultsViewController()
+        let resultsVC = FightResultsController(gameState: .win)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     
     func goToLoseResultsVC() {
-        let resultsVC = FightLooseResultsViewController()
+        let resultsVC = FightResultsController(gameState: .lose)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     

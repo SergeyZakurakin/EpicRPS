@@ -21,7 +21,7 @@ extension UILabel {
     }
     
     
-    convenience init(text: String,
+    convenience init(text: String = "",
          font: Font = .rubickBold,
          fontSize: CGFloat = 19,
          color: UIColor,
