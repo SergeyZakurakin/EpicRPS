@@ -9,6 +9,14 @@ import UIKit
 
 struct Player {
     let character: UIImage
-    let victories: String
-    let loses: String
+    var victories: String
+    var loses: String
+}
+
+
+struct PlayerScore: Codable {
+    var totalVictories: Int
+    var totalLoses: Int
+    var victories: Int
+    var loses: Int
 }

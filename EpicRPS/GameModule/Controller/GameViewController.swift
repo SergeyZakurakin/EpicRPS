@@ -64,11 +64,11 @@ final class GameViewController: UIViewController {
     private var secondPassed = 0
     private var totalTime = 30
     
-    var userScore = 0
-    var computerScore = 0
+//    var userScore = 0
+//    var computerScore = 0
     
-    lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
-    lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
+    private lazy var user: Player = Player(character: .wrestler, victories: "0", loses: "0")
+    private lazy var computer: Player = Player(character: .alien, victories: "0", loses: "0")
     
     
     // MARK: - Lifecycle
@@ -83,7 +83,6 @@ final class GameViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             guard let self = self else { return }
             self.fightLoadView.removeFromSuperview()
@@ -96,19 +95,58 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getDataFromStorage()
+        
         setupUI()
         setupButtons()
         setupConstraints()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.createTimer()
         }
+        
+        
+        
+        
     }
+    
+    
+    var userScore = PlayerScore(totalVictories: 0, totalLoses: 0, victories: 0, loses: 0)
+    var computerScore = PlayerScore(totalVictories: 0, totalLoses: 0, victories: 0, loses: 0)
 }
 
 
 //MARK: - Internal Methods
 
 private extension GameViewController {
+    
+    //MARK: - Data Storage
+    
+    func saveDataToStorage() {
+        if let encodedUserScore = try? JSONEncoder().encode(userScore) {
+            UserDefaults.standard.set(encodedUserScore, forKey: "UserScore")
+        }
+        
+        if let encodedComputerScore = try? JSONEncoder().encode(computerScore) {
+            UserDefaults.standard.set(encodedComputerScore, forKey: "ComputerScore")
+        }
+    }
+    
+    
+    func getDataFromStorage() {
+        if let data = UserDefaults.standard.object(forKey: "UserScore") as? Data,
+           let userScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
+            user.victories = String(userScore.victories)
+            user.loses = String(userScore.loses)
+        }
+        
+        
+        if let data = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
+           let computerScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
+            computer.victories = String(computerScore.victories)
+            computer.loses = String(computerScore.loses)
+        }
+    }
+    
     
     //MARK: - Action
     
@@ -209,9 +247,10 @@ private extension GameViewController {
             secondPassed += 1
             increaseTimerProgress()
         } else if totalTime == 30 {
-            computerScore += 1
+            computerScore.victories += 1
             fightLabel.text = "LOSE"
             resetGameField()
+            sumTotalScores()
             checkResults()
             resetTimer()
         } else {
@@ -231,7 +270,7 @@ private extension GameViewController {
     
     func resetTimerProgress() {
         timeProgressScaleView.setProgress(0.15, animated: true)
-        secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+        secondPlayerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
     }
     
     
@@ -246,23 +285,44 @@ private extension GameViewController {
         updateComputerUI(sign: computerSign)
         
         if gameState == .win {
-            userScore += 1
-            firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
+            userScore.victories += 1
+            computerScore.loses += 1
+            firstPlayerProgressView.progress = Float(userScore.victories) / Float(totalScore)
             nextStage()
         } else if gameState == .lose {
-            computerScore += 1
-            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+            computerScore.victories += 1
+            userScore.loses += 1
+            secondPlayerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
             nextStage()
         } else if gameState == .draw {
             nextStage()
         }
+        
+        sumTotalScores()
+        
+        saveDataToStorage()
+        
+        
+        
+        print(userScore)
+        print(computerScore)
+    }
+    
+    
+    func sumTotalScores() {
+//        userScore.totalLoses += userScore.loses
+//        userScore.totalVictories += userScore.victories
+//        computerScore.totalLoses += computerScore.loses
+//        computerScore.totalVictories += computerScore.victories
     }
     
     
     func checkResults() {
-        if userScore == 3 {
+        if userScore.victories == 3 {
+            timer.invalidate()
             goToWinResultsVC()
-        } else if computerScore == 3 {
+        } else if computerScore.victories == 3 {
+            timer.invalidate()
             goToLoseResultsVC()
         }
     }
@@ -315,8 +375,7 @@ private extension GameViewController {
     
     
     @objc  func backToMainVC() {
-        let mainVC = MainViewController()
-        navigationController?.pushViewController(mainVC, animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     
@@ -330,8 +389,6 @@ private extension GameViewController {
                          scaleMiddleLine, firstPlayerScaleImage, secondPlayerScaleImage,
                          rockButton, paperButton, scissorsButton,
                          fightLoadView)
-        
-//        fightLoadView.configureView(with: user, and: computer)
     }
     
     
