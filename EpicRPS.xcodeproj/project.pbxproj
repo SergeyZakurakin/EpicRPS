@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76A2C1B4115008A7818 /* UIView + ext.swift */; };
-		526DF76D2C1B5DBA008A7818 /* FightLooseResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */; };
 		526DF76F2C1B71F4008A7818 /* RPSSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF76E2C1B71F4008A7818 /* RPSSign.swift */; };
 		526DF7712C1B7291008A7818 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7702C1B7291008A7818 /* GameState.swift */; };
 		526DF7752C1DB111008A7818 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7742C1DB111008A7818 /* Player.swift */; };
@@ -19,6 +18,8 @@
 		526DF7922C1FA469008A7818 /* UILabel + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7912C1FA469008A7818 /* UILabel + ext.swift */; };
 		526DF7942C1FA7FF008A7818 /* UIStackView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7932C1FA7FF008A7818 /* UIStackView + ext.swift */; };
 		526DF7972C1FA90A008A7818 /* RPSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7952C1FA90A008A7818 /* RPSImageView.swift */; };
+		526DF7A12C261081008A7818 /* FightResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7A02C261081008A7818 /* FightResultsController.swift */; };
+		526DF7A52C26149D008A7818 /* UIButton + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7A42C26149D008A7818 /* UIButton + ext.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
@@ -34,14 +35,12 @@
 		5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2702C1680B50083F7FC /* RulesViewController.swift */; };
 		5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2722C1680E70083F7FC /* GameViewController.swift */; };
 		5272E2752C16818C0083F7FC /* FightLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2742C16818C0083F7FC /* FightLoadView.swift */; };
-		5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2802C16823B0083F7FC /* FightResultsViewController.swift */; };
 		5272E2AF2C1A6AA50083F7FC /* RPSPlayerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2AA2C1A6AA50083F7FC /* RPSPlayerInfoView.swift */; };
 		5272E2B22C1A6ADC0083F7FC /* UIViewController + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2B02C1A6ADC0083F7FC /* UIViewController + ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		526DF76A2C1B4115008A7818 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
-		526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FightLooseResultsViewController.swift; sourceTree = "<group>"; };
 		526DF76E2C1B71F4008A7818 /* RPSSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RPSSign.swift; path = EpicRPS/SupportingFiles/Extensions/RPSSign.swift; sourceTree = SOURCE_ROOT; };
 		526DF7702C1B7291008A7818 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = EpicRPS/SupportingFiles/Extensions/GameState.swift; sourceTree = SOURCE_ROOT; };
 		526DF7742C1DB111008A7818 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = EpicRPS/SupportingFiles/Extensions/Player.swift; sourceTree = SOURCE_ROOT; };
@@ -52,6 +51,8 @@
 		526DF7912C1FA469008A7818 /* UILabel + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + ext.swift"; sourceTree = "<group>"; };
 		526DF7932C1FA7FF008A7818 /* UIStackView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + ext.swift"; sourceTree = "<group>"; };
 		526DF7952C1FA90A008A7818 /* RPSImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPSImageView.swift; sourceTree = "<group>"; };
+		526DF7A02C261081008A7818 /* FightResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightResultsController.swift; sourceTree = "<group>"; };
+		526DF7A42C26149D008A7818 /* UIButton + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + ext.swift"; sourceTree = "<group>"; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +70,6 @@
 		5272E2702C1680B50083F7FC /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
 		5272E2722C1680E70083F7FC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		5272E2742C16818C0083F7FC /* FightLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightLoadView.swift; sourceTree = "<group>"; };
-		5272E2802C16823B0083F7FC /* FightResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightResultsViewController.swift; sourceTree = "<group>"; };
 		5272E2AA2C1A6AA50083F7FC /* RPSPlayerInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPSPlayerInfoView.swift; sourceTree = "<group>"; };
 		5272E2B02C1A6ADC0083F7FC /* UIViewController + ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController + ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -304,8 +304,7 @@
 		5272E27D2C1682160083F7FC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				526DF76C2C1B5DBA008A7818 /* FightLooseResultsViewController.swift */,
-				5272E2802C16823B0083F7FC /* FightResultsViewController.swift */,
+				526DF7A02C261081008A7818 /* FightResultsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -351,6 +350,7 @@
 				526DF78F2C1F9F91008A7818 /* UIImageView + ext.swift */,
 				526DF7912C1FA469008A7818 /* UILabel + ext.swift */,
 				526DF7932C1FA7FF008A7818 /* UIStackView + ext.swift */,
+				526DF7A42C26149D008A7818 /* UIButton + ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -440,20 +440,20 @@
 				526DF7712C1B7291008A7818 /* GameState.swift in Sources */,
 				526DF7862C1F9239008A7818 /* StorageManager.swift in Sources */,
 				5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */,
+				526DF7A52C26149D008A7818 /* UIButton + ext.swift in Sources */,
 				526DF76F2C1B71F4008A7818 /* RPSSign.swift in Sources */,
 				5272E25E2C1676940083F7FC /* Font.swift in Sources */,
 				526DF78E2C1F9BF3008A7818 /* ProgressView + ext.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
 				526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */,
-				5272E2812C16823B0083F7FC /* FightResultsViewController.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
-				526DF76D2C1B5DBA008A7818 /* FightLooseResultsViewController.swift in Sources */,
 				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,
 				526DF7942C1FA7FF008A7818 /* UIStackView + ext.swift in Sources */,
 				526DF7752C1DB111008A7818 /* Player.swift in Sources */,
 				526DF7902C1F9F91008A7818 /* UIImageView + ext.swift in Sources */,
 				526DF7892C1F9604008A7818 /* RPSSignButton.swift in Sources */,
 				5272E26F2C167FC40083F7FC /* MainViewController.swift in Sources */,
+				526DF7A12C261081008A7818 /* FightResultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

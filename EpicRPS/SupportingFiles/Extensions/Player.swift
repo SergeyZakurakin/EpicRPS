@@ -7,8 +7,18 @@
 
 import UIKit
 
-struct Player {
-    let character: UIImage
-    let victories: String
-    let loses: String
+struct Player: Codable {
+    var avatarName: String?
+    var victories: Int
+    var loses: Int
+    
+    var avatar: UIImage? {
+        return UIImage(named: avatarName!)!
+    }
 }
+
+
+//struct PlayerScore: Codable {
+//    var victories: Int
+//    var loses: Int
+//}

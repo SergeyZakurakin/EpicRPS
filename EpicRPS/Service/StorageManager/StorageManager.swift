@@ -11,15 +11,17 @@ import Foundation
 
 protocol StorageManagerProtocol {
     func set<T: Encodable>(object: T?, forKey key: StorageManager.Keys)
-    func codableData<T: Decodable>(forKey key: StorageManager.Keys) -> T?
+    func codableData<T: Decodable>(_ type: T.Type, forKey key: StorageManager.Keys) -> T?
 }
 
 
 //MARK: - Storage Manager
 
 final class StorageManager {
+    
     enum Keys: String {
-        case statistics
+        case userScore
+        case computerScore
     }
     
     
@@ -40,13 +42,13 @@ final class StorageManager {
 //MARK: - StorageManagerProtocol Implementation
 
 extension StorageManager: StorageManagerProtocol {
-    func set<T>(object: T?, forKey key: Keys) where T : Encodable {
+    func set<T: Encodable>(object: T?, forKey key: Keys) {
         let jsonData = try? JSONEncoder().encode(object)
         store(jsonData, key: key.rawValue)
     }
     
-    func codableData<T>(forKey key: Keys) -> T? where T : Decodable {
+    func codableData<T: Decodable>(_ type: T.Type, forKey key: Keys) -> T? {
         guard let data = restore(forKey: key.rawValue) as? Data else { return nil }
-        return try? JSONDecoder().decode(T.self, from: data)
+        return try? JSONDecoder().decode(type.self, from: data)
     }
 }

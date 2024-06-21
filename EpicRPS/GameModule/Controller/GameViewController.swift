@@ -22,8 +22,8 @@ final class GameViewController: UIViewController {
     private var baseMaleHand = UIImageView(image: .baseMaleHand)
     
     //Player Images
-    private let firstPlayerScaleImage = UIImageView(image: .alien)
-    private let secondPlayerScaleImage = UIImageView(image: .wrestler)
+    private let userScaleImage = UIImageView(image: .wrestler)
+    private let computerScaleImage = UIImageView(image: .alien)
     
     //Buttons
     private lazy var rockButton = RPSSignButton(with: .rockBtn)
@@ -50,9 +50,9 @@ final class GameViewController: UIViewController {
     private var timeLabel = UILabel(text: "0:00",fontSize: 12, color: .white)
     
     //ProgressView Players Counter
-    private lazy var firstPlayerProgressView = UIProgressView(progressColor: .greenLighter, trackColor: .blueLight, rotationAngle: .pi / -2)
+    private lazy var userProgressView = UIProgressView(progressColor: .greenLighter, trackColor: .blueLight, rotationAngle: .pi / -2)
     private let scaleMiddleLine = UIImageView(bgColor: .white)
-    private lazy var secondPlayerProgressView = UIProgressView(progressColor: .brownBase, trackColor: .blueLight, rotationAngle: .pi / 2)
+    private lazy var computerProgressView = UIProgressView(progressColor: .brownBase, trackColor: .blueLight, rotationAngle: .pi / 2)
     
     
     //MARK: - Properties
@@ -62,13 +62,15 @@ final class GameViewController: UIViewController {
     
     private var timer = Timer()
     private var secondPassed = 0
-    private var totalTime = 30
+    private let totalTime = 30
     
-    var userScore = 0
-    var computerScore = 0
+    private lazy var user: Player = Player(avatarName: "happyWrestler", victories: 0, loses: 0)
+    private lazy var computer: Player = Player(avatarName: "sadWrestler", victories: 0, loses: 0)
     
-    lazy var user: Player = Player(character: .wrestler, victories: "\(2)", loses: "\(0)")
-    lazy var computer: Player = Player(character: .alien, victories: "\(5)", loses: "\(7)")
+//    private lazy var userScore = PlayerScore(victories: 0, loses: 0)
+    private lazy var userScore = Player(victories: 0, loses: 0)
+//    private lazy var computerScore = PlayerScore(victories: 0, loses: 0)
+    private lazy var computerScore = Player(victories: 0, loses: 0)
     
     
     // MARK: - Lifecycle
@@ -83,7 +85,6 @@ final class GameViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             guard let self = self else { return }
             self.fightLoadView.removeFromSuperview()
@@ -95,6 +96,8 @@ final class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getDataFromStorage()
         
         setupUI()
         setupButtons()
@@ -109,6 +112,35 @@ final class GameViewController: UIViewController {
 //MARK: - Internal Methods
 
 private extension GameViewController {
+    
+    //MARK: - Data Storage
+    
+    func saveDataToStorage() {
+        if let encodedUserScore = try? JSONEncoder().encode(userScore) {
+            UserDefaults.standard.set(encodedUserScore, forKey: "UserScore")
+        }
+        
+        if let encodedComputerScore = try? JSONEncoder().encode(computerScore) {
+            UserDefaults.standard.set(encodedComputerScore, forKey: "ComputerScore")
+        }
+    }
+    
+    
+    func getDataFromStorage() {
+        if let data = UserDefaults.standard.object(forKey: "UserScore") as? Data,
+           let userScore = try? JSONDecoder().decode(Player.self, from: data) {
+            user.victories = userScore.victories
+            user.loses = userScore.loses
+        }
+        
+        
+        if let data = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
+           let computerScore = try? JSONDecoder().decode(Player.self, from: data) {
+            computer.victories = computerScore.victories
+            computer.loses = computerScore.loses
+        }
+    }
+    
     
     //MARK: - Action
     
@@ -209,9 +241,12 @@ private extension GameViewController {
             secondPassed += 1
             increaseTimerProgress()
         } else if totalTime == 30 {
-            computerScore += 1
+            computerScore.victories += 1
+            userScore.loses += 1
             fightLabel.text = "LOSE"
             resetGameField()
+            saveDataToStorage()
+//            sumTotalScores()
             checkResults()
             resetTimer()
         } else {
@@ -231,7 +266,7 @@ private extension GameViewController {
     
     func resetTimerProgress() {
         timeProgressScaleView.setProgress(0.15, animated: true)
-        secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+        computerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
     }
     
     
@@ -246,23 +281,41 @@ private extension GameViewController {
         updateComputerUI(sign: computerSign)
         
         if gameState == .win {
-            userScore += 1
-            firstPlayerProgressView.progress = Float(userScore) / Float(totalScore)
+            userScore.victories += 1
+            computerScore.loses += 1
+            userProgressView.progress = Float(userScore.victories) / Float(totalScore)
             nextStage()
         } else if gameState == .lose {
-            computerScore += 1
-            secondPlayerProgressView.progress = Float(computerScore) / Float(totalScore)
+            computerScore.victories += 1
+            userScore.loses += 1
+            computerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
             nextStage()
         } else if gameState == .draw {
             nextStage()
         }
+        
+//        sumTotalScores()
+        saveDataToStorage()
+        
+        print(userScore)
+        print(computerScore)
+    }
+    
+    
+    func sumTotalScores() {
+//        userScore.totalLoses += userScore.loses
+//        userScore.totalVictories += userScore.victories
+//        computerScore.totalLoses += computerScore.loses
+//        computerScore.totalVictories += computerScore.victories
     }
     
     
     func checkResults() {
-        if userScore == 3 {
+        if userScore.victories == 3 {
+            timer.invalidate()
             goToWinResultsVC()
-        } else if computerScore == 3 {
+        } else if computerScore.victories == 3 {
+            timer.invalidate()
             goToLoseResultsVC()
         }
     }
@@ -303,20 +356,19 @@ private extension GameViewController {
     //MARK: - Navigation
     
     func goToWinResultsVC() {
-        let resultsVC = FightResultsViewController()
+        let resultsVC = FightResultsController(firstPlayer: user, secondPlayer: computer, gameState: .win)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     
     func goToLoseResultsVC() {
-        let resultsVC = FightLooseResultsViewController()
+        let resultsVC = FightResultsController(firstPlayer: computer, secondPlayer: user, gameState: .lose)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     
     @objc  func backToMainVC() {
-        let mainVC = MainViewController()
-        navigationController?.pushViewController(mainVC, animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     
@@ -326,12 +378,13 @@ private extension GameViewController {
         view.addSubviews(gameBackgroundImageView, fightLabel,
                          baseFemaleHand, baseMaleHand,
                          timeProgressScaleView, timeLabel,
-                         firstPlayerProgressView, secondPlayerProgressView,
-                         scaleMiddleLine, firstPlayerScaleImage, secondPlayerScaleImage,
+                         userProgressView, computerProgressView,
+                         scaleMiddleLine, computerScaleImage, userScaleImage,
                          rockButton, paperButton, scissorsButton,
                          fightLoadView)
         
-//        fightLoadView.configureView(with: user, and: computer)
+        userScaleImage.image = user.avatar
+        computerScaleImage.image = computer.avatar
     }
     
     
@@ -378,14 +431,6 @@ private extension GameViewController {
             scaleMiddleLine.widthAnchor.constraint(equalToConstant: 18),
             scaleMiddleLine.heightAnchor.constraint(equalToConstant: 1),
             
-            firstPlayerScaleImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140),
-            firstPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            firstPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
-            
-            secondPlayerScaleImage.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
-            secondPlayerScaleImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            secondPlayerScaleImage.heightAnchor.constraint(equalToConstant: 45),
-            
             rockButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 702),
             rockButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 57),
             rockButton.widthAnchor.constraint(equalToConstant: 80),
@@ -406,15 +451,26 @@ private extension GameViewController {
             timeProgressScaleView.widthAnchor.constraint(equalToConstant: 166),
             timeProgressScaleView.heightAnchor.constraint(equalToConstant: 10),
             
-            firstPlayerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
-            firstPlayerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 74),
-            firstPlayerProgressView.widthAnchor.constraint(equalToConstant: 150),
-            firstPlayerProgressView.heightAnchor.constraint(equalToConstant: 10),
+            computerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            computerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -74),
+            computerProgressView.widthAnchor.constraint(equalToConstant: 150),
+            computerProgressView.heightAnchor.constraint(equalToConstant: 10),
             
-            secondPlayerProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
-            secondPlayerProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -74),
-            secondPlayerProgressView.widthAnchor.constraint(equalToConstant: 150),
-            secondPlayerProgressView.heightAnchor.constraint(equalToConstant: 10),
+            computerScaleImage.centerXAnchor.constraint(equalTo: computerProgressView.centerXAnchor),
+            computerScaleImage.bottomAnchor.constraint(equalTo: computerProgressView.topAnchor, constant: -60),
+            computerScaleImage.heightAnchor.constraint(equalToConstant: 45),
+            computerScaleImage.widthAnchor.constraint(equalToConstant: 45),
+            
+            userProgressView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 155),
+            userProgressView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 74),
+            userProgressView.widthAnchor.constraint(equalToConstant: 150),
+            userProgressView.heightAnchor.constraint(equalToConstant: 10),
+            
+            userScaleImage.centerXAnchor.constraint(equalTo: userProgressView.centerXAnchor),
+            userScaleImage.topAnchor.constraint(equalTo: userProgressView.bottomAnchor, constant: 60),
+            userScaleImage.heightAnchor.constraint(equalToConstant: 45),
+            userScaleImage.widthAnchor.constraint(equalToConstant: 45),
+
             
             fightLoadView.topAnchor.constraint(equalTo: view.topAnchor),
             fightLoadView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

@@ -34,8 +34,8 @@ final class RPSPlayerInfoView: UIView {
         configure()
         setConstraints()
         
-        characterImage.image = player.character
-        statisticLabel.attributedText = setLabels(winScore: player.victories, victoryLabel: " Victories/", loseScore: player.loses, loseLabel: " Lose")
+        characterImage.image = player.avatar
+        statisticLabel.attributedText = setLabels(winScore: String(player.victories), victoryLabel: " Victories/", loseScore: String(player.loses), loseLabel: " Lose")
     }
     
     
