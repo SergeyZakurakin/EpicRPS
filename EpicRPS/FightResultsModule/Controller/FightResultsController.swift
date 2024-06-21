@@ -84,7 +84,7 @@ private extension FightResultsController {
     
     func getDataFromStorage() {
         if let userData = UserDefaults.standard.object(forKey: "UserScore") as? Data,
-            let userScore = try? JSONDecoder().decode(PlayerScore.self, from: userData) {
+            let userScore = try? JSONDecoder().decode(Player.self, from: userData) {
                 if gameState == .win {
                     gameStatusLabel.text = "You Win"
                     backgroundView.image = .blueBackground
@@ -95,7 +95,7 @@ private extension FightResultsController {
         
         
         if let computerData = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
-            let computerScore = try? JSONDecoder().decode(PlayerScore.self, from: computerData) {
+            let computerScore = try? JSONDecoder().decode(Player.self, from: computerData) {
                 if gameState == .lose {
                     gameStatusLabel.text = "You Lose"
                     backgroundView.image = .orangeBackground

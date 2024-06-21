@@ -67,8 +67,10 @@ final class GameViewController: UIViewController {
     private lazy var user: Player = Player(avatarName: "happyWrestler", victories: 0, loses: 0)
     private lazy var computer: Player = Player(avatarName: "sadWrestler", victories: 0, loses: 0)
     
-    private lazy var userScore = PlayerScore(victories: 0, loses: 0)
-    private lazy var computerScore = PlayerScore(victories: 0, loses: 0)
+//    private lazy var userScore = PlayerScore(victories: 0, loses: 0)
+    private lazy var userScore = Player(victories: 0, loses: 0)
+//    private lazy var computerScore = PlayerScore(victories: 0, loses: 0)
+    private lazy var computerScore = Player(victories: 0, loses: 0)
     
     
     // MARK: - Lifecycle
@@ -126,14 +128,14 @@ private extension GameViewController {
     
     func getDataFromStorage() {
         if let data = UserDefaults.standard.object(forKey: "UserScore") as? Data,
-           let userScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
+           let userScore = try? JSONDecoder().decode(Player.self, from: data) {
             user.victories = userScore.victories
             user.loses = userScore.loses
         }
         
         
         if let data = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
-           let computerScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
+           let computerScore = try? JSONDecoder().decode(Player.self, from: data) {
             computer.victories = computerScore.victories
             computer.loses = computerScore.loses
         }
