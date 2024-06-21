@@ -7,10 +7,14 @@
 
 import UIKit
 
-struct Player {
-    let character: UIImage
-    var victories: String
-    var loses: String
+struct Player: Codable {
+    let avatarName: String
+    var victories: Int
+    var loses: Int
+    
+    var avatar: UIImage {
+        return UIImage(named: avatarName)!
+    }
 }
 
 

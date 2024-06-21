@@ -62,13 +62,13 @@ final class GameViewController: UIViewController {
     
     private var timer = Timer()
     private var secondPassed = 0
-    private var totalTime = 30
+    private let totalTime = 30
     
-//    var userScore = 0
-//    var computerScore = 0
+    private lazy var user: Player = Player(avatarName: "alien", victories: 0, loses: 0)
+    private lazy var computer: Player = Player(avatarName: "marvelWrestler", victories: 0, loses: 0)
     
-    private lazy var user: Player = Player(character: .wrestler, victories: "0", loses: "0")
-    private lazy var computer: Player = Player(character: .alien, victories: "0", loses: "0")
+    private lazy var userScore = PlayerScore(victories: 0, loses: 0)
+    private lazy var computerScore = PlayerScore(victories: 0, loses: 0)
     
     
     // MARK: - Lifecycle
@@ -103,15 +103,7 @@ final class GameViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.createTimer()
         }
-        
-        
-        
-        
     }
-    
-    
-    var userScore = PlayerScore(victories: 0, loses: 0)
-    var computerScore = PlayerScore(victories: 0, loses: 0)
 }
 
 
@@ -135,15 +127,15 @@ private extension GameViewController {
     func getDataFromStorage() {
         if let data = UserDefaults.standard.object(forKey: "UserScore") as? Data,
            let userScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
-            user.victories = String(userScore.victories)
-            user.loses = String(userScore.loses)
+            user.victories = userScore.victories
+            user.loses = userScore.loses
         }
         
         
         if let data = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
            let computerScore = try? JSONDecoder().decode(PlayerScore.self, from: data) {
-            computer.victories = String(computerScore.victories)
-            computer.loses = String(computerScore.loses)
+            computer.victories = computerScore.victories
+            computer.loses = computerScore.loses
         }
     }
     
@@ -362,13 +354,13 @@ private extension GameViewController {
     //MARK: - Navigation
     
     func goToWinResultsVC() {
-        let resultsVC = FightResultsController(gameState: .win)
+        let resultsVC = FightResultsController(firstPlayer: user, secondPlayer: computer, gameState: .win)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     
     func goToLoseResultsVC() {
-        let resultsVC = FightResultsController(gameState: .lose)
+        let resultsVC = FightResultsController(firstPlayer: computer, secondPlayer: user, gameState: .lose)
         navigationController?.pushViewController(resultsVC, animated: true)
     }
     
