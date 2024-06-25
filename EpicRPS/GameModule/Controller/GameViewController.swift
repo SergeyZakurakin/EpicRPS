@@ -22,8 +22,8 @@ final class GameViewController: UIViewController {
     private var baseMaleHand = UIImageView(image: .baseMaleHand)
     
     //Player Images
-    private let userScaleImage = UIImageView(image: .wrestler)
-    private let computerScaleImage = UIImageView(image: .alien)
+    private let userScaleImage = RPSImageView(frame: .zero)
+    private let computerScaleImage = RPSImageView(frame: .zero)
     
     //Buttons
     private lazy var rockButton = RPSSignButton(with: .rockBtn)
@@ -64,13 +64,17 @@ final class GameViewController: UIViewController {
     private var secondPassed = 0
     private let totalTime = 30
     
-    private lazy var user: Player = Player(avatarName: "happyWrestler", victories: 0, loses: 0)
-    private lazy var computer: Player = Player(avatarName: "sadWrestler", victories: 0, loses: 0)
+    private var user: Player = Player(
+        avatarName: "happyWrestler",
+        victories: UserDefaults.standard.integer(forKey: "UserVictory"),
+        loses: UserDefaults.standard.integer(forKey: "UserLose"),
+        score: 0
+    )
     
-//    private lazy var userScore = PlayerScore(victories: 0, loses: 0)
-    private lazy var userScore = Player(victories: 0, loses: 0)
-//    private lazy var computerScore = PlayerScore(victories: 0, loses: 0)
-    private lazy var computerScore = Player(victories: 0, loses: 0)
+    private var computer: Player = Player(
+        avatarName: "sadWrestler",
+        victories: UserDefaults.standard.integer(forKey: "ComputerVictory"), loses: UserDefaults.standard.integer(forKey: "ComputerLose"), score: 0
+    )
     
     
     // MARK: - Lifecycle
@@ -115,29 +119,20 @@ private extension GameViewController {
     
     //MARK: - Data Storage
     
-    func saveDataToStorage() {
-        if let encodedUserScore = try? JSONEncoder().encode(userScore) {
-            UserDefaults.standard.set(encodedUserScore, forKey: "UserScore")
-        }
-        
-        if let encodedComputerScore = try? JSONEncoder().encode(computerScore) {
-            UserDefaults.standard.set(encodedComputerScore, forKey: "ComputerScore")
-        }
-    }
-    
-    
     func getDataFromStorage() {
-        if let data = UserDefaults.standard.object(forKey: "UserScore") as? Data,
-           let userScore = try? JSONDecoder().decode(Player.self, from: data) {
-            user.victories = userScore.victories
-            user.loses = userScore.loses
-        }
-        
-        
-        if let data = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
-           let computerScore = try? JSONDecoder().decode(Player.self, from: data) {
-            computer.victories = computerScore.victories
-            computer.loses = computerScore.loses
+        let userScore = UserDefaults.standard.integer(forKey: "UserScore")
+        let computerScore = UserDefaults.standard.integer(forKey: "ComputerScore")
+
+        if userScore == 3 {
+            user.victories += 1
+            computer.loses += 1
+            UserDefaults.standard.setValue(user.victories, forKey: "UserVictory")
+            UserDefaults.standard.setValue(computer.loses, forKey: "ComputerLose")
+        } else if computerScore == 3 {
+            user.loses += 1
+            computer.victories += 1
+            UserDefaults.standard.setValue(computer.victories, forKey: "ComputerVictory")
+            UserDefaults.standard.setValue(user.loses, forKey: "UserLose")
         }
     }
     
@@ -241,12 +236,9 @@ private extension GameViewController {
             secondPassed += 1
             increaseTimerProgress()
         } else if totalTime == 30 {
-            computerScore.victories += 1
-            userScore.loses += 1
+            computer.score += 1
             fightLabel.text = "LOSE"
             resetGameField()
-            saveDataToStorage()
-//            sumTotalScores()
             checkResults()
             resetTimer()
         } else {
@@ -266,7 +258,7 @@ private extension GameViewController {
     
     func resetTimerProgress() {
         timeProgressScaleView.setProgress(0.15, animated: true)
-        computerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
+        computerProgressView.progress = Float(computer.score) / Float(totalScore)
     }
     
     
@@ -281,40 +273,27 @@ private extension GameViewController {
         updateComputerUI(sign: computerSign)
         
         if gameState == .win {
-            userScore.victories += 1
-            computerScore.loses += 1
-            userProgressView.progress = Float(userScore.victories) / Float(totalScore)
+            user.score += 1
+            userProgressView.progress = Float(user.score) / Float(totalScore)
             nextStage()
         } else if gameState == .lose {
-            computerScore.victories += 1
-            userScore.loses += 1
-            computerProgressView.progress = Float(computerScore.victories) / Float(totalScore)
+            computer.score += 1
+            computerProgressView.progress = Float(computer.score) / Float(totalScore)
             nextStage()
         } else if gameState == .draw {
             nextStage()
         }
         
-//        sumTotalScores()
-        saveDataToStorage()
-        
-        print(userScore)
-        print(computerScore)
-    }
-    
-    
-    func sumTotalScores() {
-//        userScore.totalLoses += userScore.loses
-//        userScore.totalVictories += userScore.victories
-//        computerScore.totalLoses += computerScore.loses
-//        computerScore.totalVictories += computerScore.victories
+        print(user)
+        print(computer)
     }
     
     
     func checkResults() {
-        if userScore.victories == 3 {
+        if user.score == 3 {
             timer.invalidate()
             goToWinResultsVC()
-        } else if computerScore.victories == 3 {
+        } else if computer.score == 3 {
             timer.invalidate()
             goToLoseResultsVC()
         }
@@ -339,14 +318,14 @@ private extension GameViewController {
     }
     
     func resumeGame() {
-        isGamePaused = false
+        isGamePaused.toggle()
         createTimer()
         fightLabel.text = "FIGHT"
         toggleIsEnabledButtons()
     }
     
     func pauseGame() {
-        isGamePaused = true
+        isGamePaused.toggle()
         timer.invalidate()
         fightLabel.text = "PAUSE"
         toggleIsEnabledButtons()
