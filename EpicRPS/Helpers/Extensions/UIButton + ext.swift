@@ -13,4 +13,15 @@ extension UIButton {
         self.setBackgroundImage(image, for: .normal)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    
+    convenience init(textLabel: String) {
+        self.init()
+        
+        self.setTitle(textLabel, for: .normal)
+        self.setBackgroundImage(.buttonBackground, for: .normal)
+        self.setTitleColor(.brownDarker, for: .normal)
+        self.titleLabel?.font = Font.getFont(.rubickBold, size: 16)
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
 }

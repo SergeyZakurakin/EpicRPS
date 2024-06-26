@@ -55,6 +55,8 @@ final class MainViewController: UIViewController {
     
     @objc private func resultButtonPressed(_ sender: UIButton) {
         print("RESULT")
+        let statisticVC = StatisticsViewController()
+        navigationController?.pushViewController(statisticVC, animated: true)
     }
     
     // MARK: - Life Cycle
@@ -121,29 +123,5 @@ extension MainViewController {
             femaleHandImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             femaleHandImageView.topAnchor.constraint(equalTo: mainTitleLabel.bottomAnchor, constant: 60),
         ])
-    }
-}
-
-extension UILabel {
-    convenience init(textColor: ColorResource) {
-        self.init()
-        
-        self.text = "EPIC RPS"
-        self.font = UIFont(name: "Rubik-Bold", size: 30)
-        self.textColor = UIColor(resource: textColor)
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
-    }
-}
-
-extension UIButton {
-    convenience init(textLabel: String) {
-        self.init()
-        
-        self.setTitle(textLabel, for: .normal)
-        self.setBackgroundImage(.buttonBackground, for: .normal)
-        self.setTitleColor(.brownDarker, for: .normal)
-        self.titleLabel?.font = Font.getFont(.rubickBold, size: 16)
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

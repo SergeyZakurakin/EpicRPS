@@ -6,7 +6,7 @@
 //
 
 import UIKit
-    
+
 extension UILabel {
     
     convenience init(text: String, font: UIFont?, color: UIColor) {
@@ -22,10 +22,10 @@ extension UILabel {
     
     
     convenience init(text: String = "",
-         font: Font = .rubickBold,
-         fontSize: CGFloat = 19,
-         color: UIColor,
-         textAlignment: NSTextAlignment = .center) {
+                     font: Font = .rubickBold,
+                     fontSize: CGFloat = 19,
+                     color: UIColor,
+                     textAlignment: NSTextAlignment = .center) {
         
         self.init()
         self.text = text
@@ -37,5 +37,16 @@ extension UILabel {
         minimumScaleFactor = 0.9
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    
+    convenience init(textColor: ColorResource) {
+        self.init()
+        
+        self.text = "EPIC RPS"
+        self.font = UIFont(name: "Rubik-Bold", size: 30)
+        self.textColor = UIColor(resource: textColor)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

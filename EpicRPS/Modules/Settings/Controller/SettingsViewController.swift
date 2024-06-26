@@ -23,6 +23,7 @@ final class SettingsViewController: UIViewController {
         configure()
         setupButtons()
         setConstraints()
+        setupNavBar(on: self, title: "SETTINGS", leftImage: .back, leftSelector: #selector(backButtonDidTap), rightImage: nil, rightSelector: nil)
     }
 }
 
@@ -42,6 +43,11 @@ private extension SettingsViewController {
         default:
             break
         }
+    }
+    
+    
+    @objc func backButtonDidTap() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
     

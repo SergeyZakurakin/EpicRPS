@@ -24,6 +24,9 @@
 		526DF7AB2C2BEB7B008A7818 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7AA2C2BEB7B008A7818 /* SettingsViewController.swift */; };
 		526DF7AD2C2BEEEA008A7818 /* RPSTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7AC2C2BEEEA008A7818 /* RPSTimeView.swift */; };
 		526DF7AF2C2BF213008A7818 /* RPSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7AE2C2BF213008A7818 /* RPSSettingsView.swift */; };
+		526DF7B92C2C1D4C008A7818 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7B82C2C1D4C008A7818 /* StatisticsViewController.swift */; };
+		526DF7BB2C2C20D8008A7818 /* RPSTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7BA2C2C20D8008A7818 /* RPSTableView.swift */; };
+		526DF7BE2C2C2177008A7818 /* RPSTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
@@ -61,6 +64,9 @@
 		526DF7AA2C2BEB7B008A7818 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		526DF7AC2C2BEEEA008A7818 /* RPSTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTimeView.swift; sourceTree = "<group>"; };
 		526DF7AE2C2BF213008A7818 /* RPSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSSettingsView.swift; sourceTree = "<group>"; };
+		526DF7B82C2C1D4C008A7818 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		526DF7BA2C2C20D8008A7818 /* RPSTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTableView.swift; sourceTree = "<group>"; };
+		526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTableViewCell.swift; sourceTree = "<group>"; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +188,31 @@
 				5272E2502C16736A0083F7FC /* Fonts */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		526DF7B62C2C1D30008A7818 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				526DF7BC2C2C2169008A7818 /* Cell */,
+				526DF7BA2C2C20D8008A7818 /* RPSTableView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		526DF7B72C2C1D3B008A7818 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				526DF7B82C2C1D4C008A7818 /* StatisticsViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		526DF7BC2C2C2169008A7818 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		5272E22D2C1663360083F7FC = {
@@ -325,6 +356,8 @@
 		5272E2762C1681BF0083F7FC /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
+				526DF7B62C2C1D30008A7818 /* View */,
+				526DF7B72C2C1D3B008A7818 /* Controller */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -444,6 +477,7 @@
 				5272E2B22C1A6ADC0083F7FC /* UIViewController + ext.swift in Sources */,
 				526DF7712C1B7291008A7818 /* GameState.swift in Sources */,
 				526DF7862C1F9239008A7818 /* StorageManager.swift in Sources */,
+				526DF7BB2C2C20D8008A7818 /* RPSTableView.swift in Sources */,
 				526DF7AB2C2BEB7B008A7818 /* SettingsViewController.swift in Sources */,
 				5272E2712C1680B50083F7FC /* RulesViewController.swift in Sources */,
 				526DF7A52C26149D008A7818 /* UIButton + ext.swift in Sources */,
@@ -453,6 +487,7 @@
 				526DF78E2C1F9BF3008A7818 /* UIProgressView + ext.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
 				526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */,
+				526DF7BE2C2C2177008A7818 /* RPSTableViewCell.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
 				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,
 				526DF7942C1FA7FF008A7818 /* UIStackView + ext.swift in Sources */,
@@ -462,6 +497,7 @@
 				5272E26F2C167FC40083F7FC /* MainViewController.swift in Sources */,
 				526DF7A72C2BEA30008A7818 /* RPSTimeButton.swift in Sources */,
 				526DF7A12C261081008A7818 /* FightResultsController.swift in Sources */,
+				526DF7B92C2C1D4C008A7818 /* StatisticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
