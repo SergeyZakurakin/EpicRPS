@@ -65,15 +65,17 @@ final class GameViewController: UIViewController {
     private let totalTime = 30
     
     private var user: Player = Player(
-        avatarName: "happyWrestler",
-        victories: UserDefaults.standard.integer(forKey: "UserVictory"),
-        loses: UserDefaults.standard.integer(forKey: "UserLose"),
+        avatarName: "",
+        victories: 0,
+        loses: 0,
         score: 0
     )
     
     private var computer: Player = Player(
-        avatarName: "sadWrestler",
-        victories: UserDefaults.standard.integer(forKey: "ComputerVictory"), loses: UserDefaults.standard.integer(forKey: "ComputerLose"), score: 0
+        avatarName: "",
+        victories: 0,
+        loses: 0,
+        score: 0
     )
     
     
@@ -101,7 +103,9 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getDataFromStorage()
+        getPlayerDataFromStorage(user: user, computer: computer)
+        updatePlayerDataByScore()
+        
         
         setupUI()
         setupButtons()
@@ -119,7 +123,18 @@ private extension GameViewController {
     
     //MARK: - Data Storage
     
-    func getDataFromStorage() {
+    func getPlayerDataFromStorage(user: Player, computer: Player) {
+        let userVictoryData = UserDefaults.standard.integer(forKey: "UserVictory")
+        let userLoseData = UserDefaults.standard.integer(forKey: "UserLose")
+        let computerVictoryData = UserDefaults.standard.integer(forKey: "ComputerVictory")
+        let computerLoseData = UserDefaults.standard.integer(forKey: "ComputerLose")
+        
+        self.user = Player(avatarName: "lightning", victories: userVictoryData, loses: userLoseData, score: 0)
+        self.computer = Player(avatarName: "alien", victories: computerVictoryData, loses: computerLoseData, score: 0)
+    }
+    
+    
+    func updatePlayerDataByScore() {
         let userScore = UserDefaults.standard.integer(forKey: "UserScore")
         let computerScore = UserDefaults.standard.integer(forKey: "ComputerScore")
 

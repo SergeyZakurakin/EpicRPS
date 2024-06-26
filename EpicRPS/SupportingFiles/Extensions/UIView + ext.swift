@@ -7,22 +7,29 @@
 
 import UIKit
 
-fileprivate let shadowLayer = CAShapeLayer()
+//MARK: - Add Subviews
 
 extension UIView {
     func addSubviews(_ subviews: UIView...) {
-            for view in subviews {
-                addSubview(view)
-            }
+        for view in subviews {
+            addSubview(view)
         }
+    }
     
     
     func addSubviews(_ subviews: [UIView]) {
-            for view in subviews {
-                addSubview(view)
-            }
+        for view in subviews {
+            addSubview(view)
         }
-    
+    }
+}
+
+
+//MARK: - Add / Remove Shadow
+
+fileprivate let shadowLayer = CAShapeLayer()
+
+extension UIView {
     
     func addTopInnerShadow() {
         shadowLayer.frame = bounds
@@ -46,5 +53,24 @@ extension UIView {
     func removeShadow() {
         shadowLayer.removeFromSuperlayer()
     }
+    
+    
+    func addShadowOnView() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 1
+    }
 }
 
+
+//MARK: - Custom Settings View
+
+extension UIView {
+    convenience init(backgroundColor: UIColor) {
+        self.init()
+        self.backgroundColor = backgroundColor
+        translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = 15
+    }
+}

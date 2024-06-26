@@ -63,7 +63,7 @@ final class MainViewController: UIViewController {
         
         setupView()
         setupConstraint()
-        setupNavBar(on: self, title: nil, leftImage: .settings, leftSelector: nil, rightImage: .rules, rightSelector: #selector(goToRulesVC))
+        setupNavBar(on: self, title: nil, leftImage: .settings, leftSelector: #selector(goToSettingsVC), rightImage: .rules, rightSelector: #selector(goToRulesVC))
     }
 }
 
@@ -88,6 +88,11 @@ extension MainViewController {
     
     @objc private func goToRulesVC() {
         let vc = RulesViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func goToSettingsVC() {
+        let vc = SettingsViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
