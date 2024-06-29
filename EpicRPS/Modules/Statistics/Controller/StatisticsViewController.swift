@@ -34,7 +34,9 @@ final class StatisticsViewController: UIViewController {
         txtFld.layer.borderWidth = 0.5
         txtFld.textColor = .blueLight
         txtFld.font = Font.getFont(.rubickBold, size: 16)
-        txtFld.leftView = UIView()
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
+        txtFld.leftView = leftView
+        txtFld.leftViewMode = .always
         txtFld.translatesAutoresizingMaskIntoConstraints = false
         return txtFld
     }()
@@ -76,7 +78,6 @@ final class StatisticsViewController: UIViewController {
     Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
     Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0)
     ]
-    
     
     
     //MARK: - Lifecycle

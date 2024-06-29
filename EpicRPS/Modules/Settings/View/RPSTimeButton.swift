@@ -20,8 +20,7 @@ final class RPSTimeButton: UIButton {
     init(text: String) {
         super.init(frame: .zero)
         
-        setTitle(text, for: .normal)
-        configure()
+        configure(title: text)
         changeState()
     }
     
@@ -34,12 +33,14 @@ final class RPSTimeButton: UIButton {
 //MARK: - Internal Methods
 
 private extension RPSTimeButton {
-    private func configure() {
-        backgroundColor = .brownBase
+    private func configure(title: String) {
         layer.cornerRadius = 15
-        setTitleColor(.white, for: .normal)
-        configuration = UIButton.Configuration.plain()
-//        titleLabel?.font = Font.getFont(.rubickBlack, size: 16)
+        var configuration = UIButton.Configuration.plain()
+        var container = AttributeContainer()
+        container.font = Font.getFont(.rubickBlack, size: 16)
+        configuration.attributedTitle = AttributedString(title, attributes: container)
+        configuration.baseBackgroundColor = .brownBase
+        self.configuration = configuration
         translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -50,8 +51,10 @@ private extension RPSTimeButton {
             switch button.state {
             case .highlighted:
                 self.backgroundColor = .greyDarker
+                self.tintColor = .white
             default:
                 self.backgroundColor = .brownBase
+                self.tintColor = .white
             }
         }
     }
