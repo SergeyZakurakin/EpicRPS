@@ -33,7 +33,7 @@ final class RPSTableViewCell: UITableViewCell {
     
     private let userPercentScoreLabel = UILabel(text: "100%",
                                                 font: .rubickMedium,
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 color: .blue)
     //MARK: - Properties
     
@@ -75,7 +75,7 @@ private extension RPSTableViewCell {
                          userScoreLabel,
                          userPercentScoreLabel)
         
-        backgroundColor = .brownBase
+//        backgroundColor = .brownBase
     }
     
     
@@ -100,8 +100,8 @@ private extension RPSTableViewCell {
             userScoreLabel.widthAnchor.constraint(equalToConstant: 50),
             
             userPercentScoreLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            userPercentScoreLabel.leadingAnchor.constraint(equalTo: userScoreLabel.trailingAnchor, constant: 20),
-            userPercentScoreLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            userPercentScoreLabel.leadingAnchor.constraint(equalTo: userScoreLabel.trailingAnchor, constant: 10),
+            userPercentScoreLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
     }
 }

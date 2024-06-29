@@ -70,6 +70,10 @@ final class StatisticsViewController: UIViewController {
         Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
     Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
     Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
+    Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0),
+    Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
+    Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
+    Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
     Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0)
     ]
     

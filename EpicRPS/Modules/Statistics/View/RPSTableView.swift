@@ -46,6 +46,13 @@ extension RPSTableView: UITableViewDataSource {
         users.count
     }
     
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        tableView.rowHeight = CGFloat(65)
+        return tableView.rowHeight
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RPSTableViewCell.idCell, for: indexPath) as? RPSTableViewCell else {
             return UITableViewCell()
