@@ -29,6 +29,8 @@
 		526DF7BE2C2C2177008A7818 /* RPSTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */; };
 		526DF7C02C3029C7008A7818 /* RPSUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7BF2C3029C7008A7818 /* RPSUserView.swift */; };
 		526DF7C22C302BA5008A7818 /* RPSTopTitlesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7C12C302BA5008A7818 /* RPSTopTitlesView.swift */; };
+		526DF7C82C303B25008A7818 /* RPSUserAvatarAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7C72C303B25008A7818 /* RPSUserAvatarAlert.swift */; };
+		526DF7CA2C303B2E008A7818 /* RPSUserNameTextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7C92C303B2E008A7818 /* RPSUserNameTextFieldAlert.swift */; };
 		5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E2392C1663360083F7FC /* AppDelegate.swift */; };
 		5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5272E23B2C1663360083F7FC /* SceneDelegate.swift */; };
 		5272E2432C1663370083F7FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5272E2422C1663370083F7FC /* Assets.xcassets */; };
@@ -71,6 +73,8 @@
 		526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTableViewCell.swift; sourceTree = "<group>"; };
 		526DF7BF2C3029C7008A7818 /* RPSUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSUserView.swift; sourceTree = "<group>"; };
 		526DF7C12C302BA5008A7818 /* RPSTopTitlesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSTopTitlesView.swift; sourceTree = "<group>"; };
+		526DF7C72C303B25008A7818 /* RPSUserAvatarAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSUserAvatarAlert.swift; sourceTree = "<group>"; };
+		526DF7C92C303B2E008A7818 /* RPSUserNameTextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSUserNameTextFieldAlert.swift; sourceTree = "<group>"; };
 		5272E2362C1663360083F7FC /* EpicRPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5272E2392C1663360083F7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5272E23B2C1663360083F7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 		526DF7B62C2C1D30008A7818 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				526DF7C62C303B0B008A7818 /* Alerts */,
 				526DF7BC2C2C2169008A7818 /* Cell */,
 				526DF7BF2C3029C7008A7818 /* RPSUserView.swift */,
 				526DF7C12C302BA5008A7818 /* RPSTopTitlesView.swift */,
@@ -219,6 +224,15 @@
 				526DF7BD2C2C2177008A7818 /* RPSTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		526DF7C62C303B0B008A7818 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				526DF7C72C303B25008A7818 /* RPSUserAvatarAlert.swift */,
+				526DF7C92C303B2E008A7818 /* RPSUserNameTextFieldAlert.swift */,
+			);
+			path = Alerts;
 			sourceTree = "<group>";
 		};
 		5272E22D2C1663360083F7FC = {
@@ -491,10 +505,12 @@
 				526DF76F2C1B71F4008A7818 /* RPSSign.swift in Sources */,
 				526DF7AF2C2BF213008A7818 /* RPSSettingsView.swift in Sources */,
 				5272E25E2C1676940083F7FC /* Font.swift in Sources */,
+				526DF7CA2C303B2E008A7818 /* RPSUserNameTextFieldAlert.swift in Sources */,
 				526DF78E2C1F9BF3008A7818 /* UIProgressView + ext.swift in Sources */,
 				526DF7C02C3029C7008A7818 /* RPSUserView.swift in Sources */,
 				5272E23A2C1663360083F7FC /* AppDelegate.swift in Sources */,
 				526DF76B2C1B4115008A7818 /* UIView + ext.swift in Sources */,
+				526DF7C82C303B25008A7818 /* RPSUserAvatarAlert.swift in Sources */,
 				526DF7BE2C2C2177008A7818 /* RPSTableViewCell.swift in Sources */,
 				5272E23C2C1663360083F7FC /* SceneDelegate.swift in Sources */,
 				5272E2732C1680E70083F7FC /* GameViewController.swift in Sources */,

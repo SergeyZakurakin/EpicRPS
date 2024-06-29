@@ -55,6 +55,11 @@ private extension StatisticsViewController {
     }
     
     
+    @objc func changeAvatarButton() {
+        print("did tap")
+    }
+    
+    
     //MARK: - Setup UI
     
     func configure() {
@@ -63,6 +68,8 @@ private extension StatisticsViewController {
                          tableView)
         
         view.backgroundColor = .greyWhite
+        userView.userAvatarButton.addTarget(self, action: #selector(changeAvatarButton), for: .touchUpInside)
+
     }
     
     

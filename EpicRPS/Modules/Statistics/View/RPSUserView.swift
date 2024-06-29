@@ -19,7 +19,7 @@ final class RPSUserView: UIView {
         return view
     }()
     
-    private lazy var userAvatarButton: UIButton = {
+    public lazy var userAvatarButton: UIButton = {
         let btn = UIButton()
         btn.setImage(.alien, for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
