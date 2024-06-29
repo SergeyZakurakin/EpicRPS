@@ -19,14 +19,14 @@ final class StatisticsViewController: UIViewController {
     //MARK: - Properties
     
     private lazy var users: [Player] = [
-        Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0)
+        Player(name: "Player1", avatarName: "alien", victories: 1, loses: 8, score: 0, highscore: 0),
+    Player(name: "Player2", avatarName: "wrestler", victories: 2, loses: 7, score: 0, highscore: 0),
+    Player(name: "Player3", avatarName: "dcWrestler", victories: 3, loses: 6, score: 0, highscore: 0),
+    Player(name: "Player4", avatarName: "marvelWrestler", victories: 4, loses: 5, score: 0, highscore: 0),
+    Player(name: "Player5", avatarName: "sadWrestler", victories: 5, loses: 4, score: 0, highscore: 0),
+    Player(name: "Player6", avatarName: "happyWrestler", victories: 6, loses: 3, score: 0, highscore: 0),
+    Player(name: "Player7", avatarName: "lightning", victories: 7, loses: 2, score: 0, highscore: 0),
+    Player(name: "Player8", avatarName: "scissorsHand", victories: 8, loses: 1, score: 0, highscore: 0)
     ]
     
     

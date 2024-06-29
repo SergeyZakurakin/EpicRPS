@@ -24,8 +24,8 @@ final class FightResultsController: UIViewController {
     //MARK: - Properties
     
     private let gameState: GameState
-    private let user: Player
-    private let computer: Player
+    private var user: Player
+    private var computer: Player
     
     
     //MARK: - Lifecycle
@@ -86,12 +86,14 @@ private extension FightResultsController {
             playerImageView.image = user.avatar
             scoreLabel.text = "\(user.score) - \(computer.score)"
             saveDataToStorage(userScore: user, computerScore: computer)
+            user.highscore! += 500
         } else if gameState == .lose {
             gameStatusLabel.text = "You Lose"
             backgroundView.image = .orangeBackground
             playerImageView.image = user.avatar
             scoreLabel.text = "\(computer.score) - \(user.score)"
             saveDataToStorage(userScore: computer, computerScore: user)
+            computer.highscore! += 500
         }
     }
     
