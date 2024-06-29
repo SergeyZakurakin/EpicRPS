@@ -59,8 +59,14 @@ final class RPSTableViewCell: UITableViewCell {
 //MARK: - External Methods
 
 extension RPSTableViewCell {
-    func configure(with: Player) {
+    func configure(with user: Player) {
+        userImageView.image = user.avatar
+        userNameLabel.text = user.name
+        userScoreLabel.text = "\(user.highscore ?? 200)"
         
+        let totalGames: Float = Float(user.victories + user.loses)
+        let victories: Float = Float(user.victories) / totalGames
+        userPercentScoreLabel.text = String(format:"%.0f", victories * 100) + "%"
     }
 }
 
