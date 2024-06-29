@@ -11,72 +11,22 @@ final class StatisticsViewController: UIViewController {
     
     //MARK: - UI
     
-    private lazy var userAvatarButton: UIButton = {
-        let btn = UIButton()
-        btn.setImage(.alien, for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
-    private let userAvatarBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 23
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var userNameTextField: UITextField = {
-       let txtFld = UITextField()
-        txtFld.placeholder = "Username"
-        txtFld.layer.cornerRadius = 20
-        txtFld.layer.borderColor = UIColor.greyLight.cgColor
-        txtFld.layer.borderWidth = 0.5
-        txtFld.textColor = .blueLight
-        txtFld.font = Font.getFont(.rubickBold, size: 16)
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
-        txtFld.leftView = leftView
-        txtFld.leftViewMode = .always
-        txtFld.translatesAutoresizingMaskIntoConstraints = false
-        return txtFld
-    }()
-    
-    private let backgroundTableView: UIView = {
-       let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 40
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let playerLabel = UILabel(text: "Player",
-                                      font: .rubickBold,
-                                      fontSize: 13,
-                                      color: .greyLight,
-                                      textAlignment: .left)
-    
-    private let topImageView = UIImageView(image: .top10)
-    
-    private let rateLabel = UILabel(text: "Rate",
-                                    font: .rubickBold,
-                                    fontSize: 13,
-                                    color: .greyLight,
-                                    textAlignment: .right)
-    
+    private let userView = RPSUserView()
+    private let titlesView = RPSTopTitlesView()
     private var tableView = RPSTableView()
     
     
     //MARK: - Properties
     
     private lazy var users: [Player] = [
-        Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "alien", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "wrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "dcWrestler", victories: 0, loses: 0, score: 0),
-    Player(avatarName: "marvelWrestler", victories: 0, loses: 0, score: 0)
+        Player(name: "Player1", avatarName: "alien", victories: 1, loses: 8, score: 0, highscore: 0),
+    Player(name: "Player2", avatarName: "wrestler", victories: 2, loses: 7, score: 0, highscore: 0),
+    Player(name: "Player3", avatarName: "dcWrestler", victories: 3, loses: 6, score: 0, highscore: 0),
+    Player(name: "Player4", avatarName: "marvelWrestler", victories: 4, loses: 5, score: 0, highscore: 0),
+    Player(name: "Player5", avatarName: "sadWrestler", victories: 5, loses: 4, score: 0, highscore: 0),
+    Player(name: "Player6", avatarName: "happyWrestler", victories: 6, loses: 3, score: 0, highscore: 0),
+    Player(name: "Player7", avatarName: "lightning", victories: 7, loses: 2, score: 0, highscore: 0),
+    Player(name: "Player8", avatarName: "scissorsHand", victories: 8, loses: 1, score: 0, highscore: 0)
     ]
     
     
@@ -104,12 +54,21 @@ private extension StatisticsViewController {
     }
     
     
+    @objc func changeAvatarButton() {
+        print("did tap")
+    }
+    
+    
     //MARK: - Setup UI
     
     func configure() {
-        view.addSubviews(userAvatarBackgroundView, userAvatarButton, userNameTextField, backgroundTableView, playerLabel, topImageView, rateLabel, tableView)
+        view.addSubviews(userView,
+                         titlesView,
+                         tableView)
         
         view.backgroundColor = .greyWhite
+        userView.userAvatarButton.addTarget(self, action: #selector(changeAvatarButton), for: .touchUpInside)
+
     }
     
     
@@ -120,43 +79,20 @@ private extension StatisticsViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            userAvatarBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
-            userAvatarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            userAvatarBackgroundView.heightAnchor.constraint(equalToConstant: 46),
-            userAvatarBackgroundView.widthAnchor.constraint(equalToConstant: 46),
+            userView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            userView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            userView.heightAnchor.constraint(equalToConstant: 60),
             
-            userAvatarButton.centerXAnchor.constraint(equalTo: userAvatarBackgroundView.centerXAnchor),
-            userAvatarButton.centerYAnchor.constraint(equalTo: userAvatarBackgroundView.centerYAnchor),
-            userAvatarButton.heightAnchor.constraint(equalToConstant: 40),
-            userAvatarButton.widthAnchor.constraint(equalToConstant: 34),
+            titlesView.topAnchor.constraint(equalTo: userView.bottomAnchor, constant: 45),
+            titlesView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            titlesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            titlesView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5),
             
-            userNameTextField.topAnchor.constraint(equalTo: userAvatarBackgroundView.topAnchor),
-            userNameTextField.leadingAnchor.constraint(equalTo: userAvatarBackgroundView.trailingAnchor, constant: 8),
-            userNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55),
-            userNameTextField.heightAnchor.constraint(equalToConstant: 45),
-            
-            backgroundTableView.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 45),
-            backgroundTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            backgroundTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            backgroundTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5),
-            
-            playerLabel.topAnchor.constraint(equalTo: backgroundTableView.topAnchor, constant: 45),
-            playerLabel.leadingAnchor.constraint(equalTo: backgroundTableView.leadingAnchor, constant: 35),
-            playerLabel.widthAnchor.constraint(equalToConstant: 50),
-            
-            topImageView.centerXAnchor.constraint(equalTo: backgroundTableView.centerXAnchor),
-            topImageView.topAnchor.constraint(equalTo: backgroundTableView.topAnchor, constant: -30),
-            topImageView.heightAnchor.constraint(equalToConstant: 95),
-            topImageView.widthAnchor.constraint(equalToConstant: 165),
-        
-            rateLabel.topAnchor.constraint(equalTo: backgroundTableView.topAnchor, constant: 45),
-            rateLabel.leadingAnchor.constraint(equalTo: topImageView.trailingAnchor, constant: 25),
-            rateLabel.trailingAnchor.constraint(equalTo: backgroundTableView.trailingAnchor, constant: -50),
-            
-            tableView.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 40),
-            tableView.leadingAnchor.constraint(equalTo: backgroundTableView.leadingAnchor, constant: 15),
-            tableView.trailingAnchor.constraint(equalTo: backgroundTableView.trailingAnchor, constant: -15),
-            tableView.bottomAnchor.constraint(equalTo: backgroundTableView.bottomAnchor, constant: -15)
+            tableView.topAnchor.constraint(equalTo: titlesView.topAnchor, constant: 100),
+            tableView.leadingAnchor.constraint(equalTo: titlesView.leadingAnchor, constant: 15),
+            tableView.trailingAnchor.constraint(equalTo: titlesView.trailingAnchor, constant: -15),
+            tableView.bottomAnchor.constraint(equalTo: titlesView.bottomAnchor, constant: -15)
         ])
     }
 }

@@ -68,7 +68,9 @@ extension RPSTableView: UITableViewDataSource {
 //MARK: - Delegate
 
 extension RPSTableView: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 
@@ -76,7 +78,7 @@ extension RPSTableView: UITableViewDelegate {
 
 private extension RPSTableView {
     func configure() {
-        backgroundColor = .lightGray
+//        backgroundColor = .lightGray
         translatesAutoresizingMaskIntoConstraints = false
     }
     
