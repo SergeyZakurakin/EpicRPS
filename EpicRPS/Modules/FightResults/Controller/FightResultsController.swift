@@ -23,9 +23,6 @@ final class FightResultsController: UIViewController {
     
     //MARK: - Properties
     
-    private let userScore = 0
-    private let computerScore = 0
-    
     private let gameState: GameState
     private let user: Player
     private let computer: Player
@@ -54,11 +51,11 @@ final class FightResultsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeStateWinOrLoseOnViewController()
         
         configure()
         setupButtons()
         setConstraints()
-        getDataFromStorage()
     }
 }
 
@@ -80,29 +77,30 @@ private extension FightResultsController {
     }
     
     
+    //MARK: - Change State View Controller
+    
+    func changeStateWinOrLoseOnViewController() {
+        if gameState == .win {
+            gameStatusLabel.text = "You Win"
+            backgroundView.image = .blueBackground
+            playerImageView.image = user.avatar
+            scoreLabel.text = "\(user.score) - \(computer.score)"
+            saveDataToStorage(userScore: user, computerScore: computer)
+        } else if gameState == .lose {
+            gameStatusLabel.text = "You Lose"
+            backgroundView.image = .orangeBackground
+            playerImageView.image = user.avatar
+            scoreLabel.text = "\(computer.score) - \(user.score)"
+            saveDataToStorage(userScore: computer, computerScore: user)
+        }
+    }
+    
+    
     //MARK: - Data Storage
     
-    func getDataFromStorage() {
-        if let userData = UserDefaults.standard.object(forKey: "UserScore") as? Data,
-            let userScore = try? JSONDecoder().decode(Player.self, from: userData) {
-                if gameState == .win {
-                    gameStatusLabel.text = "You Win"
-                    backgroundView.image = .blueBackground
-                    playerImageView.image = user.avatar
-                    scoreLabel.attributedText = setupLabel(first: String(userScore.victories), second: String(userScore.loses))
-                }
-            }
-        
-        
-        if let computerData = UserDefaults.standard.object(forKey: "ComputerScore") as? Data,
-            let computerScore = try? JSONDecoder().decode(Player.self, from: computerData) {
-                if gameState == .lose {
-                    gameStatusLabel.text = "You Lose"
-                    backgroundView.image = .orangeBackground
-                    playerImageView.image = user.avatar
-                    scoreLabel.attributedText = setupLabel(first: String(computerScore.loses), second: String(computerScore.victories))
-                }
-            }
+    func saveDataToStorage(userScore: Player, computerScore: Player) {
+        UserDefaults.standard.set(userScore.score, forKey: "UserScore")
+        UserDefaults.standard.set(computerScore.score, forKey: "ComputerScore")
     }
     
     
@@ -112,17 +110,6 @@ private extension FightResultsController {
         view.addSubviews(backgroundView, avatarBackgroundView,
                          playerImageView, gameStatusLabel, scoreLabel,
                          homeButton, restartButton)
-    }
-    
-    
-    func setupLabel(first: String, dash: String = " - ", second: String) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString()
-        
-        attributedString.append(NSAttributedString(string: first))
-        attributedString.append(NSAttributedString(string: dash))
-        attributedString.append(NSAttributedString(string: second))
-        
-        return attributedString
     }
     
     
